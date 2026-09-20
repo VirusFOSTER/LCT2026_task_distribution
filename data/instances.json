@@ -1,0 +1,24 @@
+{
+    "instances":
+    [
+        {
+            "instance_uid": 0,
+            "instance_name": "name_1",
+            "intance_region": "region_1",
+            "instance_competence":
+            [
+                1, 0, 0, 1
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_2",
+            "intance_region": "region_1",
+            "instance_competence":
+            [
+                1, 0, 1, 0
+            ]
+        },
+        ...
+    ]
+}
