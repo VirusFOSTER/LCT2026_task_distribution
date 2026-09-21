@@ -1,0 +1,104 @@
+{
+    "instances":
+    [
+        {
+            "instance_uid": 0,
+            "instance_name": "name_1",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 1, 1, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_2",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 1, 1, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_3",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 1, 1
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_4",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 0, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_5",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 1, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_6",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 1, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_7",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 1, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_8",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 1, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_9",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 1, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_10",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 1, 0
+            ]
+        },
+        {
+            "instance_uid": 1,
+            "instance_name": "name_11",
+            "intance_region": "yugotsentr",
+            "instance_competence":
+            [
+                1, 0, 0, 0
+            ]
+        }
+    ]
+}
