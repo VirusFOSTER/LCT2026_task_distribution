@@ -89,6 +89,7 @@
     </dia:attribute>
   </dia:diagramdata>
   <dia:layer name="Фон" visible="true" connectable="false"/>
+  <dia:layer name="Фон" visible="true" connectable="false"/>
   <dia:layer name="Фон" visible="true" connectable="true" active="true">
     <dia:object type="Flowchart - Terminal" version="1" id="O0">
       <dia:attribute name="obj_pos">
@@ -2336,6 +2337,146 @@
       <dia:connections>
         <dia:connection handle="0" to="O46" connection="2"/>
         <dia:connection handle="1" to="O54" connection="13"/>
+      </dia:connections>
+    </dia:object>
+    <dia:object type="Flowchart - Box" version="0" id="O56">
+      <dia:attribute name="obj_pos">
+        <dia:point val="102.564,29.8263"/>
+      </dia:attribute>
+      <dia:attribute name="obj_bb">
+        <dia:rectangle val="102.514,29.7763;123.623,35.6296"/>
+      </dia:attribute>
+      <dia:attribute name="elem_corner">
+        <dia:point val="102.564,29.8263"/>
+      </dia:attribute>
+      <dia:attribute name="elem_width">
+        <dia:real val="21.009561473606695"/>
+      </dia:attribute>
+      <dia:attribute name="elem_height">
+        <dia:real val="5.7532934565795912"/>
+      </dia:attribute>
+      <dia:attribute name="show_background">
+        <dia:boolean val="true"/>
+      </dia:attribute>
+      <dia:attribute name="padding">
+        <dia:real val="0.5"/>
+      </dia:attribute>
+      <dia:attribute name="text">
+        <dia:composite type="text">
+          <dia:attribute name="string">
+            <dia:string>#МОДУЛЬ ЗАПРОСОВ В БАЗУ ДАННЫХ#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="font">
+            <dia:font family="sans" style="0" name="Helvetica"/>
+          </dia:attribute>
+          <dia:attribute name="height">
+            <dia:real val="1.1288888766592593"/>
+          </dia:attribute>
+          <dia:attribute name="pos">
+            <dia:point val="113.068,32.9785"/>
+          </dia:attribute>
+          <dia:attribute name="color">
+            <dia:color val="#000000ff"/>
+          </dia:attribute>
+          <dia:attribute name="alignment">
+            <dia:enum val="1"/>
+          </dia:attribute>
+        </dia:composite>
+      </dia:attribute>
+    </dia:object>
+    <dia:object type="Standard - ZigZagLine" version="1" id="O57">
+      <dia:attribute name="obj_pos">
+        <dia:point val="80.3125,24.699"/>
+      </dia:attribute>
+      <dia:attribute name="obj_bb">
+        <dia:rectangle val="80.2625,24.649;113.43,29.8763"/>
+      </dia:attribute>
+      <dia:attribute name="orth_points">
+        <dia:point val="80.3125,24.699"/>
+        <dia:point val="80.3125,25.6194"/>
+        <dia:point val="113.068,25.6194"/>
+        <dia:point val="113.068,29.8263"/>
+      </dia:attribute>
+      <dia:attribute name="orth_orient">
+        <dia:enum val="1"/>
+        <dia:enum val="0"/>
+        <dia:enum val="1"/>
+      </dia:attribute>
+      <dia:attribute name="autorouting">
+        <dia:boolean val="true"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow">
+        <dia:enum val="22"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow_length">
+        <dia:real val="0.5"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow_width">
+        <dia:real val="0.5"/>
+      </dia:attribute>
+      <dia:connections>
+        <dia:connection handle="0" to="O1" connection="15"/>
+        <dia:connection handle="1" to="O56" connection="2"/>
+      </dia:connections>
+    </dia:object>
+    <dia:object type="Standard - ZigZagLine" version="1" id="O58">
+      <dia:attribute name="obj_pos">
+        <dia:point val="113.32,35.7917"/>
+      </dia:attribute>
+      <dia:attribute name="obj_bb">
+        <dia:rectangle val="113.27,35.7417;148.58,48.1143"/>
+      </dia:attribute>
+      <dia:attribute name="orth_points">
+        <dia:point val="113.32,35.7917"/>
+        <dia:point val="113.32,41.928"/>
+        <dia:point val="148.219,41.928"/>
+        <dia:point val="148.219,48.0643"/>
+      </dia:attribute>
+      <dia:attribute name="orth_orient">
+        <dia:enum val="1"/>
+        <dia:enum val="0"/>
+        <dia:enum val="1"/>
+      </dia:attribute>
+      <dia:attribute name="autorouting">
+        <dia:boolean val="true"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow">
+        <dia:enum val="22"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow_length">
+        <dia:real val="0.5"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow_width">
+        <dia:real val="0.5"/>
+      </dia:attribute>
+      <dia:connections>
+        <dia:connection handle="1" to="O45" connection="3"/>
+      </dia:connections>
+    </dia:object>
+    <dia:object type="Standard - PolyLine" version="0" id="O59">
+      <dia:attribute name="obj_pos">
+        <dia:point val="101.116,49.9965"/>
+      </dia:attribute>
+      <dia:attribute name="obj_bb">
+        <dia:rectangle val="101.065,35.5293;108.182,50.0474"/>
+      </dia:attribute>
+      <dia:attribute name="poly_points">
+        <dia:point val="101.116,49.9965"/>
+        <dia:point val="107.902,49.8802"/>
+        <dia:point val="107.816,35.5796"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow">
+        <dia:enum val="22"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow_length">
+        <dia:real val="0.5"/>
+      </dia:attribute>
+      <dia:attribute name="end_arrow_width">
+        <dia:real val="0.5"/>
+      </dia:attribute>
+      <dia:connections>
+        <dia:connection handle="0" to="O22" connection="6"/>
+        <dia:connection handle="2" to="O56" connection="12"/>
       </dia:connections>
     </dia:object>
   </dia:layer>
