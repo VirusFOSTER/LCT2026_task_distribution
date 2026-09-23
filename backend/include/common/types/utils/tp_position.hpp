@@ -11,12 +11,10 @@ namespace types {
 class tp_position {
 public:
     explicit tp_position();
-    explicit tp_position(const mps::json::object::JsonObject* obj_cfg_);
     tp_position(const tp_position& pose_);
     tp_position(tp_position&& pose_) noexcept;
     ~tp_position() = default;
 
-    tp_position& operator=(const mps::json::object::JsonObject* obj_cfg_);
     tp_position& operator=(const tp_position& pose_);
     tp_position& operator=(tp_position&& pose_) noexcept;
 
@@ -43,14 +41,6 @@ public:
      * @param lt_ - новое значение широты (расположение задачи)
      */
     inline void set_latitude(float lt_) { this->latitude_ = lt_; }
-
-private:
-    /**
-     * @brief confiuration_valid - верификация описания положения на валидность
-     * @param obj_cfg_ - указатель на описание положения в формате json
-     * @return результат верификации
-     */
-    bool confiuration_valid(const mps::json::object::JsonObject* obj_cfg_);
 
 private:
     float longitude_ = 0.0f;            /// <--- долгота

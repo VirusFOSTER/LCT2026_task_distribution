@@ -23,7 +23,7 @@ public:
     /**
      * деструктор
      */
-    ~tp_task();
+    ~tp_task() = default;
 
 private:
     /**
@@ -39,6 +39,12 @@ private:
      * @return результат верификации на валидность
      */
     bool configuration_valid(const mps::json::object::JsonObject* obj_cfg_);
+
+    /**
+     * @brief define_task - определение метки по типу задач
+     * @param obj_cfg_ - указатель на описание задачи
+     */
+    void define_task(const mps::json::object::JsonObject* obj_cfg_);
 
 private:
     bool description_valid_ = false;                /// <--- признак чтения описания задачи на исполнение

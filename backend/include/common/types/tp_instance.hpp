@@ -21,7 +21,7 @@ public:
     /**
      * деструктор
      */
-    ~tp_instance();
+    ~tp_instance() = default;
 
 private:
     /**
