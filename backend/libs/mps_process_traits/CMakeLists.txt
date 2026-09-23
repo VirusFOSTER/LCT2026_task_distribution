@@ -260,8 +260,8 @@ target_sources(${PROJECT_NAME}
 
 target_include_directories(${PROJECT_NAME} INTERFACE
     $<INSTALL_INTERFACE:${include_install_dir}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>	
+    $<INSTALL_INTERFACE:include/${MAIN_PROJECT}/${PROJECT_NAME}>
 )
 
 install(DIRECTORY include/ DESTINATION include/${MAIN_PROJECT}/${PROJECT_NAME})
