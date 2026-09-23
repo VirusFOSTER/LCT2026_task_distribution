@@ -51,6 +51,23 @@ find_library(ZeroMQ_LIBRARY
   PATHS ${PC_ZeroMQ_LIBRARY_DIRS}
 )
 
+###############################################################
+#################  GLPK FRAMEWORK   ###########################
+###############################################################
+find_path(GLPK_INCLUDE_DIR
+  NAMES glpk.h
+  PATH ${PC_GLPK_INCLUDE_DIRS}
+)
+
+find_library(GLPK_LIBRARY
+  NAMES glpk
+  PATH ${PC_GLPK_LIBRARY_DIRS}
+)
+
+set(VROOM_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/vroom")
+
+find_package(OpenSSL REQUIRED)
+
 ##############################################################
 ################    OPENGL LIBRARY   #########################
 ##############################################################
@@ -96,8 +113,12 @@ target_link_libraries(${PROJECT_NAME}
   ${GLUT_LIBRARIES}
   pthread
   boost_thread
-  ${mps_common_LIBRARIES}
-  ${mps_process_traits_LIBRARIES}
+  mps_common
+  mps_process_traits
+  ${VROOM_ROOT}/lib/libvroom.a
+  ${GLPK_LIBRARY}
+  OpenSSL::SSL
+  OpenSSL::Crypto
 )
 
-include_directories(include)
+include_directories(include ${VROOM_ROOT}/src ${VROOM_ROOT}/include)

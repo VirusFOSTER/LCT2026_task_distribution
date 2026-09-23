@@ -6,7 +6,7 @@ using namespace types;
 
 //----------------------------------------------------------------
 
-tp_time_window::tp_time_window:tp_time_window(const tp_time_window& tw_) {
+tp_time_window::tp_time_window::tp_time_window(const tp_time_window& tw_) {
     *this = tw_;
 }
 
