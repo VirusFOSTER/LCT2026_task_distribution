@@ -7,9 +7,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
-
 include_directories(include)
 
 set(MPS_MEMORY_BUFFERS_HEADERS
@@ -33,28 +30,52 @@ set(MPS_CONTAINERS_HEADERS
     ${MPS_CONTAINER_AVL_TREE_HEADERS}
 )
 
+set(CMAKE_INSTALL_PREFIX "/usr/local")
+
+# Определяем путь установки для заголовков
+set(include_install_dir "include/${MAIN_PROJECT}/${PROJECT_NAME}")
+
 target_sources(${PROJECT_NAME}
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${MPS_CONTAINERS_HEADERS}>
-        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${include_install_dir}>
 )
 
 target_include_directories(${PROJECT_NAME} INTERFACE
-    $<INSTALL_INTERFACE:${include_install_dir}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:${include_install_dir}>
 )
 
-install(DIRECTORY include/ DESTINATION include/${MAIN_PROJECT}/${PROJECT_NAME})
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Config)
-install(EXPORT ${PROJECT_NAME}Config DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake)
+# Установка заголовков
+install(DIRECTORY include/ DESTINATION ${include_install_dir})
+
+# Экспорт цели с пространством имен
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets)
+install(EXPORT ${PROJECT_NAME}Targets
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE mps::
+    DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake
+)
 
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file("${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    VERSION
-        ${PROJECT_VERSION}
-    COMPATIBILITY
-        AnyNewerVersion
+
+# Генерация файла версии
+write_basic_package_version_file(
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
 )
 
-install(FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake)
+# Генерация основного Config-файла
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake
+)
+
+# Установка Config-файлов
+install(FILES
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake
+)

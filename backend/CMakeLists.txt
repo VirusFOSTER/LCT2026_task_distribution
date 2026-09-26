@@ -23,6 +23,13 @@ else()
     message(STATUS "mps_common target NOT available. Using legacy variables.")
 endif()
 
+find_package(mps_containers REQUIRED)
+if(TARGET mps_containers)
+    message(STATUS "mps_containers target is available!")
+else()
+    message(STATUS "mps_containers target NOT available. Using legacy variables.")
+endif()
+
 find_package(mps_process_traits REQUIRED)
 if(TARGET mps_process_traits)
     message(STATUS "mps_process_traits target is available!")
@@ -113,7 +120,8 @@ target_link_libraries(${PROJECT_NAME}
   ${GLUT_LIBRARIES}
   pthread
   boost_thread
-  mps_common
+  mps::mps_common
+  mps::mps_containers
   mps_process_traits
   ${VROOM_ROOT}/lib/libvroom.a
   ${GLPK_LIBRARY}
