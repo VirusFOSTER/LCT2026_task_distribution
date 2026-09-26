@@ -1,0 +1,5 @@
+# Сборка mps_common
+cmake .. -D mps_common_DIR=/usr/local/share/mps/mps_common/cmake/
+
+# Для фронта
+sudo apt install nodejs npm

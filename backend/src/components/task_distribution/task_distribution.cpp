@@ -10,7 +10,7 @@ fc_task_distribution::fc_task_distribution(const std::string& fc_name_) :
 
 //-----------------------------------------------------------------------------------
 
-fc_task_distribution::~fc_task_distribution() { }
+fc_task_distribution::~fc_task_distribution() { this->reset(); }
 
 //-----------------------------------------------------------------------------------
 
@@ -19,6 +19,7 @@ bool fc_task_distribution::init() {
     this->ireader_instance_ = this->interface_reader<td::msg::msg_list_instances>("list_instances");
     if (!this->ireader_instance_) {
         std::cout << "Fail! Pointer to reader_interface \'list_instances\' is not defined!";
+        this->reset();
         return false;
     }
 
@@ -26,6 +27,7 @@ bool fc_task_distribution::init() {
     this->ireader_time_ = this->interface_reader<td::msg::msg_time_table>("time_table");
     if (!this->ireader_time_) {
         std::cout << "Fail! Pointer to reader_interface \'time_table\' is not defined!";
+        this->reset();
         return false;
     }
 
@@ -42,5 +44,20 @@ void fc_task_distribution::run() {
     //(?>) Работаем в бесконечном цикле
     while (1) {
         // TODO
+    }
+}
+
+//-----------------------------------------------------------------------------------
+
+void fc_task_distribution::reset() {
+    // Освобождение выделеной под интерфейсы памяти
+    if (this->ireader_instance_) {
+        delete this->ireader_instance_;
+        this->ireader_instance_ = nullptr;
+    }
+
+    if (this->ireader_time_) {
+        delete this->ireader_time_;
+        this->ireader_time_ = nullptr;
     }
 }

@@ -2,7 +2,6 @@
 #define TASK_DISTRIBUTION_COMPONENT_HPP
 
 #include <mps/mps_process_traits/components_traits/base_component/base_functional_component.hpp>
-#include <mps/mps_common/utils/json_io/json.hpp>
 #include "common/messages/msg_list_instances.hpp"
 #include "common/messages/msg_times_table.hpp"
 
@@ -47,6 +46,12 @@ public:
      * @brief run - головная процедура нити
      */
     void run();
+
+private:
+    /**
+     * @brief reset - сброс компоненты
+     */
+    void reset();
 
 private:
     _Iinstances_t_* ireader_instance_ = nullptr;        /// <--- указатель на интерфейс читателя исполнителей задач
