@@ -3,6 +3,7 @@
 
 #include <mps/mps_common/utils/json_io/json.hpp>
 #include "tg_instances.hpp"
+#include "utils/tp_position.hpp"
 
 namespace td {
 namespace types {
@@ -68,12 +69,16 @@ public:
     inline std::string instance_region() const { return this->instance_region_; }
     inline uint8_t compoetence() const { return this->byte_competence_; }
     inline tg_instance tag() const { return this->instance_tag_; }
+    inline tg_moving moving_tag() const { return this->moving_tag_; }
+    inline tp_position position() const { return this->position_; }
 
     inline void set_instance_uid(uint16_t uid_) { this->instance_uid_ = uid_; }
     inline void set_instance_name(const std::string& name_) { this->instance_name_ = name_; }
     inline void set_instance_region(const std::string& region_) { this->instance_region_ = region_; }
     inline void set_competence(uint8_t b_) { this->byte_competence_ = b_; }
     inline void set_tag(tg_instance tg_) { this->instance_tag_ = tg_; }
+    inline void set_moving_tag(tg_moving tg_) { this->moving_tag_ = tg_; }
+    inline void set_position(const tp_position& pose_) { this->position_ = pose_; }
 
 private:
     /**
@@ -97,7 +102,9 @@ private:
     std::string instance_name_ = "";                                /// <--- уникальное имя исполнителя
     std::string instance_region_ = "";                              /// <--- регион обработки задач исполнителем
     uint8_t byte_competence_ = 0x00;                                /// <--- байт компетентности
-    tg_instance instance_tag_ = tg_instance::_tg_status_unknown_;   /// <--- метка исполнителя
+    tg_instance instance_tag_ = tg_instance::_tg_status_unknown_;   /// <--- метка исполнителя по статусу работ
+    tg_moving moving_tag_ = tg_moving::_tg_unknown_;                /// <--- тип перемещения исполнителя задач
+    tp_position position_;                                          /// <--- текущее положение исполнителя
 };
 }       /// <--- types
 }   /// <--- td

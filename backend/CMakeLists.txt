@@ -122,7 +122,7 @@ target_link_libraries(${PROJECT_NAME}
   boost_thread
   mps::mps_common
   mps::mps_containers
-  mps_process_traits
+  mps::mps_process_traits
   ${VROOM_ROOT}/lib/libvroom.a
   ${GLPK_LIBRARY}
   OpenSSL::SSL

@@ -4,6 +4,7 @@
 #include <mps/mps_process_traits/components_traits/base_component/base_functional_component.hpp>
 #include <mps/mps_common/utils/json_io/json.hpp>
 #include "common/messages/msg_list_instances.hpp"
+#include "common/messages/msg_times_table.hpp"
 
 namespace td {
 namespace component {
@@ -22,6 +23,8 @@ namespace component {
  ---------------------------------------------------------------------------------------------------------------------*/
 class fc_task_distribution : public mps::process::component::base::base_functional_component {
     using _Iinstances_t_ = mps::process::interface::Isequence_reader<td::msg::msg_list_instances>;
+    using _Itimes_t_ = mps::process::interface::Isequence_reader<td::msg::msg_time_table>;
+
 public:
     /**
      * @brief fc_task_distribution - конструктор
@@ -47,6 +50,7 @@ public:
 
 private:
     _Iinstances_t_* ireader_instance_ = nullptr;        /// <--- указатель на интерфейс читателя исполнителей задач
+    _Itimes_t_* ireader_time_ = nullptr;                /// <--- указатель на интерфейс читателя временной таблицы
 };
 }       /// <--- component
 }   /// <--- td
