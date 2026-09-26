@@ -95,6 +95,13 @@ private:
      */
     bool configuration_valid(const mps::json::object::JsonObject* obj_cfg_);
 
+    /**
+     * @brief define_moving_tag - определение метки движения лдя исоплнителя
+     * @param str_tg_ - тип перемещения исполнителя в строковой переменной
+     * @return метка движения исполнителя
+     */
+    tg_moving define_moving_tag(const std::string& str_tg_);
+
 private:
     bool description_valid_ = false;                                /// <--- Признак чтения описания исполнителя
 
@@ -102,7 +109,7 @@ private:
     std::string instance_name_ = "";                                /// <--- уникальное имя исполнителя
     std::string instance_region_ = "";                              /// <--- регион обработки задач исполнителем
     uint8_t byte_competence_ = 0x00;                                /// <--- байт компетентности
-    tg_instance instance_tag_ = tg_instance::_tg_status_unknown_;   /// <--- метка исполнителя по статусу работ
+    tg_instance instance_tag_ = tg_instance::_tg_status_free_;      /// <--- метка исполнителя по статусу работ
     tg_moving moving_tag_ = tg_moving::_tg_unknown_;                /// <--- тип перемещения исполнителя задач
     tp_position position_;                                          /// <--- текущее положение исполнителя
 };
