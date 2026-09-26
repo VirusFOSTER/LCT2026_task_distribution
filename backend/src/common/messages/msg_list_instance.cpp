@@ -3,7 +3,7 @@
 
 
 static bool register_message_list_instances() {
-    //(?) Если контейнер регистрации сообщений инициализирован, регистрируем сообщение типа time_table
+    //(?) Если контейнер регистрации сообщений инициализирован, регистрируем сообщение типа list_instances
     if (register_messages_container_) {
         return register_messages_container_->register_message<td::msg::msg_list_instances>("list_instances");
     }
