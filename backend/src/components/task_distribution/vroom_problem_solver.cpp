@@ -49,9 +49,9 @@ vroom::Solution vroom_problem_solver::solve_problem(const unsigned exploration_l
     }
 
     //(?>) Устанавливаем матрицы времени движения по профилям
-    // for (auto& duration_mtx_ : this->moving_matricies_) {
-    //     this->problem_->set_durations_matrix(duration_mtx_.first,std::move(duration_mtx_.second));
-    // }
+    for (auto& duration_mtx_ : this->moving_matricies_) {
+        this->problem_->set_durations_matrix(duration_mtx_.first,std::move(duration_mtx_.second));
+    }
 
     //(?>) Устанавливаем исполниетелей задач
     for (auto& instance_ : this->instances_) {

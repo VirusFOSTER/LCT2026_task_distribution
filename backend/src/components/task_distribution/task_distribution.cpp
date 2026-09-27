@@ -108,29 +108,6 @@ void fc_task_distribution::run() {
 
 //-----------------------------------------------------------------------------------
 
-/*
-    inline void init_problem() {
-        this->reset();
-        this->problem_ = new vroom::Input;
-    }
-
-void set_instances(_vehicles_t_& vehicles_);
-
-void set_tasks(_tasks_t_& tasks_);
-
-void set_tasks_skills(std::vector<vroom::Skills>& skills_);
-
-void set_moving_maxtricies(std::vector<_mtx_moving_t_>& mtx_);
-
-void set_tasks_windows(std::vector<_time_wind_t_>& winds_);
-
-void set_tasks_service(_time_service_t_& servs_);
-
-inline void set_global_time_work(vroom::TimeWindow& time_) { this->global_time_work_ = time_; }
-
-vroom::Solution solve_problem(const unsigned exploration_level_ = 5,
-                              const unsigned nb_threads_ = 4);
- */
 void fc_task_distribution::make_solve_problem(const msg::msg_tasks_list* const tasks_,
                                               const msg::msg_list_instances* const instances_,
                                               const msg::msg_time_table* const time_table_) {
