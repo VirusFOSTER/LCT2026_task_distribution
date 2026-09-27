@@ -40,11 +40,31 @@ bool tp_task::read_configuration(const mps::json::object::JsonObject* obj_cfg_) 
         this->time_window_.set_time_begin(obj_cfg_->asObject("time_window")->asString("time_begin"));
         this->time_window_.set_time_end(obj_cfg_->asObject("time_window")->asString("time_end"));
 
+        if (this->get_seconds_from_start_day(this->time_window_.time_begin()) < 0.0f ||
+            this->get_seconds_from_start_day(this->time_window_.time_end()) < 0.0f) {
+            return false;
+        }
+
         return true;
     }
 
     // В противном случае возвращаем соответствующий результат
     return false;
+}
+
+long long tp_task::get_seconds_from_start_day(const std::string& time_str_) {
+    int day, month, year, hour, minute;
+
+    // Парсим строку формата "ДД.ММ.ГГГГ ЧЧ:ММ"
+    if (std::sscanf(time_str_.c_str(), "%d.%d.%d %d:%d", &day, &month, &year, &hour, &minute) != 5) {
+        std::cerr << "Ошибка парсинга времени: " << time_str_ << std::endl;
+        return -1; // Возвращаем -1 в случае ошибки
+    }
+
+    // Переводим часы и минуты в секунды
+    long long total_seconds_ = (static_cast<long long>(hour) * 3600) + (static_cast<long long>(minute) * 60);
+
+    return total_seconds_;
 }
 
 //-------------------------------------------------

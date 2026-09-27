@@ -67,7 +67,7 @@ public:
     inline uint16_t instance_uid() const { return this->instance_uid_; }
     inline std::string instance_name() const { return this->instance_name_; }
     inline std::string instance_region() const { return this->instance_region_; }
-    inline uint8_t compoetence() const { return this->byte_competence_; }
+    inline uint8_t competence() const { return this->byte_competence_; }
     inline tg_instance tag() const { return this->instance_tag_; }
     inline tg_moving moving_tag() const { return this->moving_tag_; }
     inline tp_position position() const { return this->position_; }

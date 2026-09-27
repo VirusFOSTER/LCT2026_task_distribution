@@ -25,6 +25,29 @@ public:
      */
     ~tp_task() = default;
 
+    inline uint32_t task_uid() { return this->task_uid_; }
+    inline tg_task task_type() const { return this->task_type_; }
+    inline tp_position task_position() const { return this->position_; }
+    inline tp_time_window time_window() const { return this->time_window_; }
+    inline std::string region() const { return this->task_region_; }
+
+    inline void set_task_uid(uint32_t uid_) { this->task_uid_ = uid_; }
+    inline void set_task_type(tg_task type_) { this->task_type_ = type_; }
+    inline void set_postion(tp_position pose_) { this->position_ = pose_; }
+    inline void set_time_window(tp_time_window time_wind_) { this->time_window_ = time_wind_; }
+    inline void set_region(const std::string& region_) { this->task_region_ = region_; }
+
+    inline long long get_seconds_begin() { return this->get_seconds_from_start_day(this->time_window_.time_begin()); }
+    inline long long get_seconds_end() { return this->get_seconds_from_start_day(this->time_window_.time_end()); }
+
+private:
+    /**
+     * @brief get_seconds_from_start_day - метод получения времени в секунда относительно начала дня
+     * @param time_str_ - указанное время
+     * @return время в секундах относительно начала дня
+     */
+    long long get_seconds_from_start_day(const std::string& time_str_);
+
 private:
     /**
      * @brief read_configuration - чтение конфигурации (описания исполняемой задачи)
