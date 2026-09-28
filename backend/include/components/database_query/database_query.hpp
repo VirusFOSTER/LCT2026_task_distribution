@@ -6,6 +6,7 @@
 #include "common/messages/msg_list_instances.hpp"
 #include "common/messages/msg_tasks_list.hpp"
 
+#include <mps/mps_common/utils/json_io/json.hpp>
 #include <sqlite3.h>
 
 namespace td {
@@ -81,6 +82,13 @@ private:
      * @param request_ - описание запроса
      */
     void remove_instances(const msg::msg_request* const request_);
+
+    /**
+     * @brief description_instances_valid - верификация описания исполнителей задач на валидность
+     * @param dsc_insts_ - описание задач в формате json
+     * @return результат верификации задач на валидность
+     */
+    bool description_instances_valid(const mps::json::object::JsonObject* dsc_insts_);
 
     //=======================================
     /**

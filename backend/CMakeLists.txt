@@ -40,7 +40,7 @@ endif()
 ###############################################################
 ##############  QT FRAMEWORK    ###############################
 ###############################################################
-find_package(Qt6 REQUIRED COMPONENTS Core Gui OpenGLWidgets PrintSupport Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core PrintSupport Widgets)
 include_directories(${Qt6Widgets_INCLUDE_DIR})
 link_directories(${Qt6Widgets_LIBRARY_DIR})
 add_definitions(${Qt6Widgets_DEFINITIONS})
@@ -76,14 +76,14 @@ set(VROOM_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/libs/vroom")
 find_package(OpenSSL REQUIRED)
 
 ##############################################################
-################    OPENGL LIBRARY   #########################
+#####################    SQLITE 3   ##########################
 ##############################################################
-find_package(OpenGL REQUIRED)
-include_directories(${OpenGl_INCLUDE_DIRS})
-link_directories(${OpenGL_LIBRARY_DIRS})
-add_definitions(${OpenGL_DEFINITIONS})
-
-find_package(GLUT REQUIRED)
+find_package (SQLite3)
+if (SQLITE3_FOUND)
+  include_directories(${SQLite3_INCLUDE_DIRS})
+  link_directories(${SQLite3_LIBRARY_DIRS})
+  add_definitions(${SQLite3_DEFINITIONS})
+endif (SQLITE3_FOUND)
 
 ##############################################################
 ################    BOOST LIBRARY   ##########################
@@ -93,16 +93,16 @@ include_directories( ${Boost_INCLUDE_DIRS} )
 link_directories(${Boost_LIBRARY_DIRS})
 add_definitions(${Boost_DEFINITIONS})
 
-file(GLOB_RECURSE VISUALIZATION_HEADERS "include/*.hpp")
-file(GLOB_RECURSE VISUALIZATION_SOURCES "src/*.cpp")
+file(GLOB_RECURSE TASK_DISTRIBUTION_HEADERS "include/*.hpp")
+file(GLOB_RECURSE TASK_DISTRIBUTION_SOURCES "src/*.cpp")
 
 
 ################################################################################################
 ########################################  PROCESS_SOURCES   ####################################
 ################################################################################################
 set(PROCESS_SOURCES
-  ${VISUALIZATION_HEADERS}
-  ${VISUALIZATION_SOURCES}
+  ${TASK_DISTRIBUTION_HEADERS}
+  ${TASK_DISTRIBUTION_SOURCES}
 )
 
 add_executable(${PROJECT_NAME}
@@ -114,10 +114,7 @@ target_link_libraries(${PROJECT_NAME}
   PUBLIC Qt6::Widgets
   ${Boost_LIBRARIES}
   ${ZeroMQ_LIBRARY}
-  Qt6::OpenGL
   Qt6::Core
-  ${OPENGL_LIBRARIES}
-  ${GLUT_LIBRARIES}
   pthread
   boost_thread
   mps::mps_common
@@ -127,6 +124,7 @@ target_link_libraries(${PROJECT_NAME}
   ${GLPK_LIBRARY}
   OpenSSL::SSL
   OpenSSL::Crypto
+  ${SQLite3_LIBRARIES}
 )
 
 include_directories(include ${VROOM_ROOT}/src ${VROOM_ROOT}/include)

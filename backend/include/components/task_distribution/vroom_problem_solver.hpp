@@ -20,8 +20,8 @@
 #include "structures/vroom/cost_wrapper.h"
 #include "utils/exception.h"
 
-constexpr uint32_t SHIFT_START = 9  * 3600;
-constexpr uint32_t SHIFT_END   = 18 * 3600;
+constexpr uint32_t SHIFT_START = 10  * 3600;
+constexpr uint32_t SHIFT_END   = 22 * 3600;
 
 namespace td {
 namespace algorithms {

@@ -89,7 +89,7 @@ bool fc_database_query::init() {
         char* messagge_error_;
         result_ = sqlite3_exec(this->database_, sql_query_.c_str(), NULL, 0, &messagge_error_);
         if (result_ != SQLITE_OK) {
-            std::cerr << "Error Create Table \'tasks\'" << std::endl;
+            std::cerr << "Error Create Table \'tasks\'!" << std::endl;
             sqlite3_free(messagge_error_);
         }
         else
@@ -154,21 +154,164 @@ void fc_database_query::exec_update_data(const msg::msg_request* const request_m
 }
 
 //-----------------------------------------------------------------------------------
-
+/*
+        std::string sql_query_ = "CREATE TABLE INSTANCES("
+                                 "UID INT PRIMARY KEY NOT NULL,"
+                                 "NAME TEXT NOT NULL,"
+                                 "REGION TEXT NOT NULL,"
+                                 "MOVING_TYPE TEXT NOT NULL,"
+                                 "STATUS_WORK INT NOT NULL,"
+                                 "LONGITUDE REAL NOT NULL,"
+                                 "LATITUDE REAL NOT NULL,"
+                                 "EMERGENCY INT NOT NULL,"
+                                 "CONNECTION INT NOT NULL,"
+                                 "LOCAL_TASK INT NOT NULL,"
+                                 "ADDITIONAL_ORDER INT NOT NULL"
+                                 ");";
+ */
 void fc_database_query::append_instances(const msg::msg_request* const request_) {
+    // Подключаемся (создаем) к базе данных
+    auto result_ = sqlite3_open(this->database_name_.c_str(),&this->database_);
+    if (result_) {
+        std::cerr << "Error open database " << sqlite3_errmsg(this->database_) << std::endl;
+        return;
+    }
 
+    // Считываем данные по исполнителем задач
+    auto data_ = request_->data();
+    mps::json::loader::JsonLoader loader_(data_,mps::json::loader::JsonLoader::String);
+    auto dsc_instances_ = loader_.rootObject();
+
+    //(?) Если описание исполнителей задач
+    if (this->description_instances_valid(dsc_instances_)) {
+        for (int32_t i = 0; i < dsc_instances_->asArray("instances")->size(); ++i) {
+            auto dsc_instance_ = dsc_instances_->asArray("instances")->asObject(i);
+            auto competence_ = dsc_instance_->asArray("instance_competence");
+            std::string sql_query_ = ("INSERT INTO INSTANCES VALUES("
+                                      + std::to_string(dsc_instances_->asInteger("instance_uid")) + ", "
+                                      + dsc_instance_->asString("instance_name") + ", "
+                                      + dsc_instance_->asString("intance_region") + ", "
+                                      + dsc_instance_->asString("instance_moving_type") + ", "
+                                      + std::to_string((int)types::tg_instance::_tg_status_free_) + ", "
+                                      + std::to_string(dsc_instance_->asObject("instance_start_position")->hasProperty("longitude")) + ", "
+                                      + std::to_string(dsc_instance_->asObject("instance_start_position")->hasProperty("latitude")) + ", "
+                                      + std::to_string(competence_->asInteger(3)) + ", "
+                                      + std::to_string(competence_->asInteger(2)) + ", "
+                                      + std::to_string(competence_->asInteger(1)) + ", "
+                                      + std::to_string(competence_->asInteger(0)) + ", "
+                                      + ");");
+
+            char* message_error_;
+            result_ = sqlite3_exec(this->database_, sql_query_.c_str(), nullptr, 0, &message_error_);
+            if (result_ != SQLITE_OK) {
+                std::cerr << "Error Insert data to table \'instances\'!" << std::endl;
+                sqlite3_free(message_error_);
+            }
+        }
+    }
+
+    // Закрываем базу данных
+    sqlite3_close(this->database_);
 }
 
 //-----------------------------------------------------------------------------------
 
 void fc_database_query::block_instances(const msg::msg_request* const request_) {
+    // Подключаемся (создаем) к базе данных
+    auto result_ = sqlite3_open(this->database_name_.c_str(),&this->database_);
+    if (result_) {
+        std::cerr << "Error open database " << sqlite3_errmsg(this->database_) << std::endl;
+        return;
+    }
 
+    // Считываем данные по исполнителем задач
+    auto data_ = request_->data();
+    mps::json::loader::JsonLoader loader_(data_,mps::json::loader::JsonLoader::String);
+    auto dsc_instances_ = loader_.rootObject();
+
+    //(?) Если описание исполнителей задач
+    if (this->description_instances_valid(dsc_instances_)) {
+        for (int32_t i = 0; i < dsc_instances_->asArray("instances")->size(); ++i) {
+            auto dsc_instance_ = dsc_instances_->asArray("instances")->asObject(i);
+            std::string sql_query_ = ("UPDATE INSTANCES SET STATUS_WORK  = "
+                                      + std::to_string((int)types::tg_instance::_tg_status_unavailable_)
+                                      + " WHERE ID = " +
+                                      std::to_string(dsc_instance_->asInteger("instance_uid")) + ";");
+
+            char* message_error_;
+            result_ = sqlite3_exec(this->database_, sql_query_.c_str(), nullptr, 0, &message_error_);
+            if (result_ != SQLITE_OK) {
+                std::cerr << "Error Block instance in table \'instances\'!" << std::endl;
+                sqlite3_free(message_error_);
+            }
+        }
+    }
+
+    // Закрываем базу данных
+    sqlite3_close(this->database_);
 }
 
 //-----------------------------------------------------------------------------------
 
 void fc_database_query::remove_instances(const msg::msg_request* const request_) {
+    // Подключаемся (создаем) к базе данных
+    auto result_ = sqlite3_open(this->database_name_.c_str(),&this->database_);
+    if (result_) {
+        std::cerr << "Error open database " << sqlite3_errmsg(this->database_) << std::endl;
+        return;
+    }
 
+    // Считываем данные по исполнителем задач
+    auto data_ = request_->data();
+    mps::json::loader::JsonLoader loader_(data_,mps::json::loader::JsonLoader::String);
+    auto dsc_instances_ = loader_.rootObject();
+
+    //(?) Если описание исполнителей задач
+    if (this->description_instances_valid(dsc_instances_)) {
+        for (int32_t i = 0; i < dsc_instances_->asArray("instances")->size(); ++i) {
+            auto dsc_instance_ = dsc_instances_->asArray("instances")->asObject(i);
+            std::string sql_query_ = ("DELETE FROM INSTANCES WHERE ID = " +
+                                      std::to_string(dsc_instance_->asInteger("instance_uid")) + ";");
+
+            char* message_error_;
+            result_ = sqlite3_exec(this->database_, sql_query_.c_str(), nullptr, 0, &message_error_);
+            if (result_ != SQLITE_OK) {
+                std::cerr << "Error Delete data from table \'instances\'!" << std::endl;
+                sqlite3_free(message_error_);
+            }
+        }
+    }
+
+    // Закрываем базу данных
+    sqlite3_close(this->database_);
+}
+
+//-----------------------------------------------------------------------------------
+
+bool fc_database_query::description_instances_valid(const mps::json::object::JsonObject* dsc_insts_) {
+    if (!dsc_insts_ || !dsc_insts_->hasProperty("instances") || !dsc_insts_->asArray("instances")) {
+        return false;
+    }
+
+    //(?>) Проверяем описание каждого исполнителя задач
+    for (int32_t i = 0; i < dsc_insts_->asArray("instances")->size(); ++i) {
+        auto dsc_instance_ = dsc_insts_->asArray("instances")->asObject(i);
+        if (!dsc_instance_ ||
+            !dsc_instance_->hasProperty("instance_uid") ||
+            !dsc_instance_->hasProperty("instance_name") ||
+            !dsc_instance_->hasProperty("intance_region") ||
+            !dsc_instance_->hasProperty("instance_moving_type") ||
+            !dsc_instance_->hasProperty("instance_start_position") ||
+            !dsc_instance_->asObject("instance_start_position") ||
+            !dsc_instance_->asObject("instance_start_position")->hasProperty("longitude") ||
+            !dsc_instance_->asObject("instance_start_position")->hasProperty("latitude") ||
+            !dsc_instance_->hasProperty("instance_competence") ||
+            !dsc_instance_->asArray("instance_competence")) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 //===================================================================================
