@@ -6,6 +6,8 @@
 #include "common/messages/msg_list_instances.hpp"
 #include "common/messages/msg_tasks_list.hpp"
 
+#include <sqlite3.h>
+
 namespace td {
 namespace component {
 /**---------------------------------------------------------------------------------------------------------------
@@ -50,6 +52,65 @@ public:
 
 private:
     /**
+     * @brief exec - метод выполнения запросоа
+     * @param request_message_ - сообщение, содержащее запрос
+     */
+    void exec(const msg::msg_request* const request_message_);
+
+    //=======================================
+    /**
+     * @brief exec_update_data - метод выполнения запроса по обновлению данных
+     * @param request_message_ - сообщение, содержащее запрос
+     */
+    void exec_update_data(const msg::msg_request* const request_message_);
+
+    /**
+     * @brief append_instances - метод добавления новых исполнителей
+     * @param request_ - описание запроса
+     */
+    void append_instances(const msg::msg_request* const request_);
+
+    /**
+     * @brief block_instances - метод блокировки исполнителей задач (исполнители недоступны)
+     * @param request_ - описание запроса
+     */
+    void block_instances(const msg::msg_request* const request_);
+
+    /**
+     * @brief remove_instances - метод удаления исполнителей задач
+     * @param request_ - описание запроса
+     */
+    void remove_instances(const msg::msg_request* const request_);
+
+    //=======================================
+    /**
+     * @brief exec_processing_data - метод выполнения запроса по обработке данных
+     * По сути собирается информация по текущему положению исполнителей задач
+     * @param request_message_ - сообщение, содержащее запрос
+     */
+    void exec_processing_data(const msg::msg_request* const request_message_);
+
+    void exec_task_distribution(const msg::msg_request* const request_);
+
+    void exec_process_emergency(const msg::msg_request* const request_);
+
+    void exec_process_cancel(const msg::msg_request* const request_);
+
+    //=======================================
+    /**
+     * @brief exec_get_info - метод выполнения запроса на выдачу данных
+     * @param request_message_ - сообщение, содержащее запрос
+     */
+    void exec_get_info(const msg::msg_request* const request_message_);
+
+    void exec_get_free_instances(const msg::msg_request* const request_);
+    void exec_get_job_instances(const msg::msg_request* const request_);
+    void exec_get_free_tasks(const msg::msg_request* const request_);
+    void exec_get_job_tasks(const msg::msg_request* const request_);
+    void exec_completed_tasks(const msg::msg_request* const request_);
+    void exec_current_position(const msg::msg_request* const request_);
+
+    /**
      * @brief reset - сброс компоненты
      */
     void reset();
@@ -59,6 +120,9 @@ private:
     _Irtasks_t_* ireader_tasks_ = nullptr;          /// <--- указатель на интерфейс читателя списка задач
     _Iinstances_t_* iwriter_instances_ = nullptr;   /// <--- указатель на интерфейс писателя списка исполнителей
     _Iwtasks_t_* iwriter_tasks_ = nullptr;          /// <--- указатель на интерфейс писателя списка задач
+
+    sqlite3* database_ = nullptr;                               /// <--- указатель на базу данных
+    const std::string database_name_ = "task_distribution.db";  /// <--- наименование базы данных
 };
 }       /// <--- component
 }   /// <-- td

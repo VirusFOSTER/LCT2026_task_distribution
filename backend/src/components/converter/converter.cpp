@@ -156,16 +156,17 @@ bool fc_converter::make_time_table(const mps::json::object::JsonObject* request_
  */
 bool fc_converter::request_valid(const mps::json::object::JsonObject* request_) {
     return request_ &&
-            request_->hasProperty("generatedAt") &&
-            request_->hasProperty("source") &&
-            request_->hasProperty("units") &&
-            request_->hasProperty("pointCount") &&
-            request_->hasProperty("points") &&
-            request_->asArray("points") &&
-            request_->hasProperty("matricies") &&
-            request_->asArray("matricies") &&
-            this->tasks_valid(request_->asArray("points")) &&
-            this->matricies_valid(request_);
+           request_->hasProperty("generatedAt") &&
+           request_->hasProperty("time") &&
+           request_->hasProperty("source") &&
+           request_->hasProperty("units") &&
+           request_->hasProperty("pointCount") &&
+           request_->hasProperty("points") &&
+           request_->asArray("points") &&
+           request_->hasProperty("matricies") &&
+           request_->asArray("matricies") &&
+           this->tasks_valid(request_->asArray("points")) &&
+           this->matricies_valid(request_);
 }
 
 //-----------------------------------------------------------------------------------
@@ -175,15 +176,15 @@ bool fc_converter::tasks_valid(const mps::json::array::JsonArray* points_) {
     for (int32_t i = 0; i < points_->size(); ++i) {
         auto point_ = points_->asObject(i);
         if (!point_ ||
-                !point_->hasProperty("index") ||
-                !point_->hasProperty("task_uid") ||
-                !point_->hasProperty("task_region") ||
-                !point_->hasProperty("lat") ||
-                !point_->hasProperty("lon") ||
-                !point_->hasProperty("time_window") ||
-                !point_->asObject("time_window") ||
-                !point_->asObject("time_window")->hasProperty("time_begin") ||
-                !point_->asObject("time_window")->hasProperty("time_end")) {
+            !point_->hasProperty("index") ||
+            !point_->hasProperty("task_uid") ||
+            !point_->hasProperty("task_region") ||
+            !point_->hasProperty("lat") ||
+            !point_->hasProperty("lon") ||
+            !point_->hasProperty("time_window") ||
+            !point_->asObject("time_window") ||
+            !point_->asObject("time_window")->hasProperty("time_begin") ||
+            !point_->asObject("time_window")->hasProperty("time_end")) {
             return false;
         }
     }
@@ -217,7 +218,7 @@ bool fc_converter::matrix_valid(const mps::json::object::JsonObject* request_, c
 
     for (int32_t i = 0; i < request_->asArray("matrix")->size(); ++i) {
         if (!mtx_->asArray("matrix")->asArray(i) ||
-                mtx_->asArray("matrix")->asArray(i)->size() != request_->asInteger("pointCount")) {
+            mtx_->asArray("matrix")->asArray(i)->size() != request_->asInteger("pointCount")) {
             return false;
         }
     }
