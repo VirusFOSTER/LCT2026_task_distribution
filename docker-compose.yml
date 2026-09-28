@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: cpp-backend
+    networks:
+      - app-network
+    # Порт 5555 наружу не открываем, он нужен только для внутреннего общения
+
+  bridge:
+    build: ./bridge
+    container_name: ws-bridge
+    ports:
+      - "8080:8080" # WebSocket-порт для фронтенда
+    environment:
+      - ZMQ_BACKEND_URL=tcp://backend:5555 # Ссылаемся на сервис 'backend'
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: react-frontend
+    ports:
+      - "3000:80" # Пробрасываем 80-й порт Nginx на 3000-й хост-машины
+    depends_on:
+      - bridge
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
