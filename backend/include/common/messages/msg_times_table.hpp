@@ -14,6 +14,9 @@ namespace msg {
  * В этом случае имеет смысл обращаться к временной таблице через запросы вбазу данных
  ----------------------------------------------------------------------------------------------------------------------*/
 class msg_time_table {
+    using _matrix_t_ = mps::container::list_buffer<float>;
+    using _matricies_t_ = std::vector<_matrix_t_*>;
+
 public:
     /**
      * @brief msg_time_table - конструктор
@@ -30,31 +33,37 @@ public:
     /**
      * деструктор
      */
-    ~msg_time_table() = default;
+    ~msg_time_table() {
+        //(?) Очиащем сообщение как элемент буфера
+        if (this->matricies_.size()) {
+            this->matricies_.clear();
+        }
+    }
 
     /**
-     * @brief size - получение размера таблицы
-     * @return размер таблицы
+     * @brief size - получение количества временных матриц
+     * @return количество временных матриц
      */
-    inline uint32_t size() const {
-        return this->table_?
-                   this->table_->count() > this->table_->length() ?
-                       this->table_->length() : this->table_->count() :
-                   0; }
+    inline uint32_t size() const { return this->matricies_.size(); }
 
     /**
-     * @brief operator [] - получение значения из таблицы по индексу
-     * @param idx_ - индекс значения
-     * @return длительность пути
+     * @brief matrix_size - получение размера матриц (все матрицы должны быть одного размера)
+     * @return
      */
-    inline float operator[](uint32_t idx_) {
-        return this->table_ ?
-                   (this->table_->length() >= idx_) ? *(*this->table_)[idx_] : 0 :
-                   0;
+    inline uint32_t matrix_size() const { return (this->matricies_.size()) ? this->matricies_[0]->length() : 0; }
+
+    /**
+     * @brief value - метод получения времени пути по индексу
+     * @param midx_ - идентификатор матрицы
+     * @param idx_ - индекс элемента в таблице
+     * @return значение в таблице
+     */
+    inline float value(uint32_t midx_, uint32_t idx_) const {
+        return (midx_ < this->size()) ? (idx_ < this->matrix_size()) ? *(*this->matricies_[midx_])[idx_] : -1.0f : -1.0f;
     }
 
 private:
-    mps::container::list_buffer<float>* table_ = nullptr;       /// <--- описание таблицы
+    _matricies_t_ matricies_ = {};          /// <--- массив временных матриц путей
 };
 }       /// <--- msg
 }   /// <--- td

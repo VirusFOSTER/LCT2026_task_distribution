@@ -119,7 +119,7 @@ void fc_task_distribution::make_solve_problem(const msg::msg_tasks_list* const t
     vroom_.init_problem();
 
     // Составляем описание задач и исполнителей для фреймворка vroom
-    auto vehicles_ = this->make_vehicles(instances_);
+    auto vehicles_ = this->make_vehicles(tasks_, instances_, time_table_);
     auto jobs_ = this->make_jobs(tasks_);
 
     vroom_.set_tasks(jobs_);
@@ -131,7 +131,9 @@ void fc_task_distribution::make_solve_problem(const msg::msg_tasks_list* const t
 
 //-----------------------------------------------------------------------------------
 
-std::vector<vroom::Vehicle> fc_task_distribution::make_vehicles(const msg::msg_list_instances* const instances_) {
+std::vector<vroom::Vehicle> fc_task_distribution::make_vehicles(const msg::msg_tasks_list * const tasks_,
+                                                                const msg::msg_list_instances* const instances_,
+                                                                const msg::msg_time_table * const time_table_) {
     // Рабочее время (полный день)
     const vroom::TimeWindow shift_(SHIFT_START, SHIFT_END);
 
@@ -153,8 +155,9 @@ std::vector<vroom::Vehicle> fc_task_distribution::make_vehicles(const msg::msg_l
         // Указываем текущее положение исполнителя задач
         // Если начало рабочего дня, то это дом
         // Если поступает какая-то срочная заявка или происходит отмена, то это текущая выполняемая задача
-        vroom::Location start_position_(
-            vroom::Coordinates(c_instance_->position().longitude(),c_instance_->position().latitude()));
+        vroom::Location start_position_(time_table_->value(i * tasks_->tasks_count() + i));
+        // vroom::Location start_position_(
+        //     vroom::Coordinates(c_instance_->position().longitude(),c_instance_->position().latitude()));
 
         // Устанавливаем точку старта и точку окончания маршрута
         std::optional<vroom::Location> start_location_(start_position_);

@@ -87,6 +87,7 @@ public:
     inline void set_info_type(tg_get_info t_) { this->info_type_ = t_; }
 
     inline std::string data() const { return this->message_; }
+    inline void set_data(const std::string& data_) { this->message_ = data_; }
 
 private:
     tg_request_type request_type_ = tg_request_type::_tg_unknown_;      /// <--- тип запроса

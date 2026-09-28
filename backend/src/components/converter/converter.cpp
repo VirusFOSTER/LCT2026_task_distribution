@@ -48,8 +48,160 @@ void fc_converter::run() {
 
     //(?>) Работаем в бесконечном цикле
     while (1) {
-        // TODO
+        auto request_message_ = this->ireader_request_->read_next_element();
+        if (request_message_) {
+            std::cout << "[converter_component]: get new request!\n";
+
+            // Формируем и отправляем сообщения типа tasks_list и time_table
+            this->make_messages(request_message_->message_->data());
+
+            // Удаляем прочитанное сообщение
+            this->ireader_request_->remove_element(&request_message_);
+        }
+
+        // Засыпаем на 10 микросекунд
+        usleep(10);
     }
+}
+
+//-----------------------------------------------------------------------------------
+
+bool fc_converter::make_messages(const std::string& message_) {
+    // Считываем запрос в формате json
+    mps::json::loader::JsonLoader loader_(message_, mps::json::loader::JsonLoader::String);
+    auto request_ = loader_.rootObject();
+
+    //(?) Если запрос валиден, то...
+    if (this->request_valid(request_)) {
+        //(?) Формируем и отправляем сообщение типа tasks_list
+        if (!this->make_tasks_lists(request_)) {
+            // Формируем и отправляем сообщение типа time_table
+            return this->make_time_table(request_);
+        }
+    }
+
+    // В протвном случае возвращаем отрицательный результат
+    return false;
+}
+
+//-----------------------------------------------------------------------------------
+
+bool fc_converter::make_tasks_lists(const mps::json::object::JsonObject* request_) {
+    // Получаем указатель на свободный элемент буфера хранения сообщений типа tasks_list
+    auto free_element_ = this->iwriter_tasks_->get_free_element();
+    if (free_element_) {
+        //(?>) Формируем описание всех задач на выполнение
+        free_element_->element_->init_list(request_->asArray("points")->size());
+        for (int32_t i = 0; i < request_->asArray("points")->size(); ++i) {
+            free_element_->element_->append_task(new types::tp_task(request_->asArray("points")->asObject(i)));
+        }
+
+        // Отправляем сообщение с описанием задач на исоплнение
+        std::cout << "[converter_component]: send message \'list_tasks\'!\n";
+        return this->iwriter_tasks_->add_new_element(free_element_);
+    }
+
+    // В противном случае возвращаем отрицательный результат
+    return false;
+}
+
+//-----------------------------------------------------------------------------------
+
+bool fc_converter::make_time_table(const mps::json::object::JsonObject* request_) {
+    // Получаем указатель на свобожный элемент буфера хранения сообщений типа time_table
+    auto free_element_ = this->iwriter_time_table_->get_free_element();
+    if (free_element_) {
+        *free_element_->element_ = request_->asArray("matrix");
+
+        // Отправляем сообщение с описанием временной таблицы
+        std::cout << "[converter_component]: send message \'time_table\'!\n";
+        return this->iwriter_time_table_->add_new_element(free_element_);
+    }
+
+    // В противном случае возвращаем отрицательный результат
+    return false;
+}
+
+//-----------------------------------------------------------------------------------
+/* Требуемый формат запроса
+{
+  "generatedAt": ...,
+  "source": ...,
+  "units": ...,
+  "pointCount": ...,
+  "points": [
+    {
+      "index": ...,
+      "task_uid": ...,
+      "task_region": ...,
+      "lat": ...,
+      "lon": ...,
+      "time_window": {
+        "time_begin": ...,
+        "time_end": ...
+      }
+    },
+    ...
+   ],
+   "matrix":
+   [[...],
+    ...
+   ]
+}
+ */
+bool fc_converter::request_valid(const mps::json::object::JsonObject* request_) {
+    return request_ &&
+            request_->hasProperty("generatedAt") &&
+            request_->hasProperty("source") &&
+            request_->hasProperty("units") &&
+            request_->hasProperty("pointCount") &&
+            request_->hasProperty("points") &&
+            request_->asArray("points") &&
+            request_->hasProperty("matrix") &&
+            request_->asArray("matrix") &&
+            this->tasks_valid(request_->asArray("points")) &&
+            this->matrix_valid(request_);
+}
+
+//-----------------------------------------------------------------------------------
+
+bool fc_converter::tasks_valid(const mps::json::array::JsonArray* points_) {
+    //(?>) Проверяем описание каждой задачи на валидность и возввращаем соответствующий результат
+    for (int32_t i = 0; i < points_->size(); ++i) {
+        auto point_ = points_->asObject(i);
+        if (!point_ ||
+                !point_->hasProperty("index") ||
+                !point_->hasProperty("task_uid") ||
+                !point_->hasProperty("task_region") ||
+                !point_->hasProperty("lat") ||
+                !point_->hasProperty("lon") ||
+                !point_->hasProperty("time_window") ||
+                !point_->asObject("time_window") ||
+                !point_->asObject("time_window")->hasProperty("time_begin") ||
+                !point_->asObject("time_window")->hasProperty("time_end")) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+//-----------------------------------------------------------------------------------
+
+bool fc_converter::matrix_valid(const mps::json::object::JsonObject* request_) {
+    //(?>) Проверяем описание временной матрицы и возвращаем соответствующий результат
+    if (request_->asInteger("pointCount") != request_->asArray("matrix")->size()) {
+        return false;
+    }
+
+    for (int32_t i = 0; i < request_->asArray("matrix")->size(); ++i) {
+        if (!request_->asArray("matrix")->asArray(i) ||
+                request_->asArray("matrix")->asArray(i)->size() != request_->asInteger("pointCount")) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 //-----------------------------------------------------------------------------------

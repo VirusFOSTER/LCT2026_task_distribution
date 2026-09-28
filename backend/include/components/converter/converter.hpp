@@ -6,6 +6,8 @@
 #include "common/messages/msg_tasks_list.hpp"
 #include "common/messages/msg_times_table.hpp"
 
+#include <mps/mps_common/utils/json_io/json.hpp>
+
 namespace td {
 namespace component {
 /**------------------------------------------------------------------------------------------------------------------
@@ -43,6 +45,48 @@ public:
     void run();
 
 private:
+    /**
+     * @brief make_messages - метод формирования сообщений типа tasks_list и time_tab;e на базе запроса
+     * @param message_ - данные запроса (в формате json)
+     * @return результат формирования и отправки сообщений
+     */
+    bool make_messages(const std::string& message_);
+
+    /**
+     * @brief make_tasks_lists - метод создания сообщения типа tasks_list
+     * @param request_ - содержание запроса (в формате json)
+     * @return результат формирования и отправки сообщения
+     */
+    bool make_tasks_lists(const mps::json::object::JsonObject* request_);
+
+    /**
+     * @brief make_time_table - метод формировния сообщения типа time_table
+     * @param request_ - содержание запроса (в формате json)
+     * @return результат формирования и отправки сообщения
+     */
+    bool make_time_table(const mps::json::object::JsonObject* request_);
+
+    /**
+     * @brief request_valid - проверка запроса на валидность
+     * @param request_ - содержание запроса (в формате json)
+     * @return результате верификации запроса на валидность
+     */
+    bool request_valid(const mps::json::object::JsonObject* request_);
+
+    /**
+     * @brief tasks_valid - метод верификации массива задач на валидность
+     * @param points_ - положения (массив задач на исполнение)
+     * @return результат верификации на валидность
+     */
+    bool tasks_valid(const mps::json::array::JsonArray* points_);
+
+    /**
+     * @brief matrix_valid - метод верификации матрицы времен путей на валидность
+     * @param matrix_ - содержание запроса
+     * @return результат верификации на валидность
+     */
+    bool matrix_valid(const mps::json::object::JsonObject *request_);
+
     /**
      * @brief reset - сброс компоненты
      */

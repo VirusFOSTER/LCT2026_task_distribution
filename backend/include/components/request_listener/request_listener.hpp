@@ -3,6 +3,7 @@
 
 #include <mps/mps_process_traits/components_traits/base_component/base_functional_component.hpp>
 #include "common/messages/msg_request.hpp"
+#include <zmq.hpp>
 
 namespace td {
 namespace component {
@@ -38,7 +39,55 @@ public:
     void run();
 
 private:
+    /**
+     * @brief make_request - метод формирования сообщения типа user_request
+     * @param request_ - входящее сообщение от пользователя (выполняется через мост)
+     */
+    void make_request(const std::string& request_);
+
+    /**
+     * @brief define_type - метод определения типа запроса
+     * @param type_ - тип запроса в строковом описании
+     * @return метка типа запроса
+     */
+    msg::tg_request_type define_type(const std::string& type_);
+
+    /**
+     * @brief define_subtype - общий метод определения подтипа запроса и установления функции передачи запросов
+     * @param type_ - тип запроса
+     * @param subtype_ - подтип запроса в строковой переменной
+     * @return результат определения функции передачи запроса
+     */
+    bool define_subtype(msg::tg_request_type& type_, const std::string& subtype_, const std::string& request_);
+
+    /**
+     * @brief define_update_subtype - метод определения подтипа запроса (обновление базы данных)
+     * @param subtype_ - подтип запроса в строковом описании
+     * @return метка подтипа запроса
+     */
+    msg::tg_update define_update_subtype(const std::string& subtype_, const std::string& request_);
+
+    /**
+     * @brief define_processing_subtype - метод определения подтипа запроса (обработка данных)
+     * @param subtype_ - подтип запроса в строковом описании
+     * @return метка подтипа запроса
+     */
+    msg::tg_processing define_processing_subtype(const std::string& subtype_, const std::string& request_);
+
+    /**
+     * @brief define_info_subtype - метод определения подтипа запроса (получение данных)
+     * @param subtype_ - подтип запроса в строковом описании
+     * @return метка подтипа запроса
+     */
+    msg::tg_get_info define_info_subtype(const std::string& subtype_, const std::string& request_);
+
+private:
     _Irequest_t_* iwriter_request_ = nullptr;   /// <--- указатель на интерфейс писателя запросов от пользователя
+    _Irequest_t_* iwriter_request_database_ = nullptr;  /// <--- указатель на интерфейс писателя запросов от пользователя
+
+    zmq::context_t context_{1};
+    zmq::socket_t socket_;
+    std::string address_ = "tclp://*:5555";
 };
 }       /// <--- component
 }   /// <--- td

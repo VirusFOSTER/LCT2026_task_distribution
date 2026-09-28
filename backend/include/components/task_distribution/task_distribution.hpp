@@ -65,9 +65,13 @@ private:
     /**
      * @brief make_vehicles - метод формирования описания исполнителей задач в формате vroom-фреймворка
      * @param instances_ - описание исполнителей задач
+     * @param tasks_ - описание задач
+     * @param time_table_ - таблица времен пути
      * @return массив исполнителей задач в формате vroom
      */
-    std::vector<vroom::Vehicle> make_vehicles(const msg::msg_list_instances* const instances_);
+    std::vector<vroom::Vehicle> make_vehicles(const msg::msg_tasks_list* const tasks_,
+                                              const msg::msg_list_instances* const instances_,
+                                              const msg::msg_time_table* const time_table_);
 
     /**
      * @brief make_jobs - метод формирования описания задач в формате vroom-фреймворка

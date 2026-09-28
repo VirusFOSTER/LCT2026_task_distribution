@@ -41,7 +41,7 @@ bool tp_task::read_configuration(const mps::json::object::JsonObject* obj_cfg_) 
         this->time_window_.set_time_end(obj_cfg_->asObject("time_window")->asString("time_end"));
 
         if (this->get_seconds_from_start_day(this->time_window_.time_begin()) < 0.0f ||
-            this->get_seconds_from_start_day(this->time_window_.time_end()) < 0.0f) {
+                this->get_seconds_from_start_day(this->time_window_.time_end()) < 0.0f) {
             return false;
         }
 
@@ -87,11 +87,8 @@ void tp_task::define_task(const mps::json::object::JsonObject* obj_cfg_) {
     "task_uid": ...,
     "task_type": ...,
     "task_region": ...,
-    "position":
-    {
-        "latitude": ...,
-        "longitude": ...
-    },
+    "lat": ...,
+    "lon": ...,
     "time_window":
     {
         "time_begin": ...,
@@ -101,15 +98,13 @@ void tp_task::define_task(const mps::json::object::JsonObject* obj_cfg_) {
  */
 bool tp_task::configuration_valid(const mps::json::object::JsonObject* obj_cfg_) {
     return obj_cfg_ &&
-           obj_cfg_->hasProperty("task_uid") &&
-           obj_cfg_->hasProperty("task_type") &&
-           obj_cfg_->hasProperty("task_region") &&
-           obj_cfg_->hasProperty("position") &&
-           obj_cfg_->asObject("position") &&
-           obj_cfg_->asObject("position")->hasProperty("latitude") &&
-           obj_cfg_->asObject("position")->hasProperty("longitude") &&
-           obj_cfg_->hasProperty("time_window") &&
-           obj_cfg_->asObject("time_window") &&
-           obj_cfg_->asObject("time_window")->hasProperty("time_begin") &&
-           obj_cfg_->asObject("time_window")->hasProperty("time_end");
+            obj_cfg_->hasProperty("task_uid") &&
+            obj_cfg_->hasProperty("task_type") &&
+            obj_cfg_->hasProperty("task_region") &&
+            obj_cfg_->asObject("lat") &&
+            obj_cfg_->asObject("lon") &&
+            obj_cfg_->hasProperty("time_window") &&
+            obj_cfg_->asObject("time_window") &&
+            obj_cfg_->asObject("time_window")->hasProperty("time_begin") &&
+            obj_cfg_->asObject("time_window")->hasProperty("time_end");
 }

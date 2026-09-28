@@ -2,6 +2,9 @@
 #include <mps/mps_process_traits/messages_traits/messages_container/register_messages_container.hpp>
 
 
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
 static bool register_message_list_tasks() {
     //(?) Если контейнер регистрации сообщений инициализирован, регистрируем сообщение типа list_tasks
     if (register_messages_container_) {
@@ -13,3 +16,4 @@ static bool register_message_list_tasks() {
 }
 
 static bool register_message_list_tasks_ = register_message_list_tasks();
+
