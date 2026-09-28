@@ -1,0 +1,25 @@
+{
+    "type": "process-configuration",
+    "version": "v1",
+    "process_uid": 1,
+    "process_name": "task_distribution",
+    "process_configuration":
+    {
+        "components_configuration":
+        {
+            "type": "components-config",
+            "path": "task_distribution_components.json",
+        },
+        "messages_configuration":
+        {
+            "type": "messages-config",
+            "path": "task_distribution_messages.json"
+        },
+        "connection_configuration":
+        {
+            "type": "connection-config",
+            "path": "task_distribution_connection.json"
+        },
+        "local_configuration": ""
+    }
+}

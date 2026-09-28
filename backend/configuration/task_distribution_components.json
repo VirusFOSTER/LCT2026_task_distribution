@@ -1,0 +1,39 @@
+{
+    "type": "components-config",
+    "version": "v1",
+    "components_configuration":
+    [
+        {
+            "component_uid": 1,
+            "component_name": "request_listener",
+            "component_active": true,
+            "component_respawn": false,
+            "component_count": 1,
+            "component_description": ""
+        },
+        {
+            "component_uid": 2,
+            "component_name": "converter",
+            "component_active": true,
+            "component_respawn": false,
+            "component_count": 1,
+            "component_description": ""
+        },
+        {
+            "component_uid": 3,
+            "component_name": "task_distribution",
+            "component_active": true,
+            "component_respawn": false,
+            "component_count": 1,
+            "component_description": ""
+        },
+        {
+            "component_uid": 4,
+            "component_name": "database_query",
+            "component_active": true,
+            "component_respawn": false,
+            "component_count": 1,
+            "component_description": ""
+        }
+    ]
+}

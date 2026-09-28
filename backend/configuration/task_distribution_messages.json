@@ -1,0 +1,102 @@
+{
+    "type": "messages-config",
+    "version": "v1",
+    "messages":
+    [
+        {
+            "message_uid": 1,
+            "message_name": "user_request",
+            "alt_message_name": "MSG_1",
+            "message_acces_tag": "mutable",
+            "message_unique_tag": "shared",
+            "buffer_name": "list_buffer_model",
+            "buffer_size": 10,
+            "registration": false,
+            "sources":
+            [
+                "request_listener"
+            ],
+            "targets":
+            [
+                "converter"
+            ],
+            "message_description": ""
+    	},
+    	{
+            "message_uid": 2,
+            "message_name": "user_request_database",
+            "alt_message_name": "MSG_2",
+            "message_acces_tag": "mutable",
+            "message_unique_tag": "shared",
+            "buffer_name": "list_buffer_model",
+            "buffer_size": 10,
+            "registration": false,
+            "sources":
+            [
+                "request_listener"
+            ],
+            "targets":
+            [
+                "database_query"
+            ],
+            "message_description": ""
+    	},
+    	{
+            "message_uid": 3,
+            "message_name": "list_tasks",
+            "alt_message_name": "MSG_3",
+            "message_acces_tag": "mutable",
+            "message_unique_tag": "shared",
+            "buffer_name": "list_buffer_model",
+            "buffer_size": 10,
+            "registration": false,
+            "sources":
+            [
+                "converter"
+            ],
+            "targets":
+            [
+                "task_distribution"
+            ],
+            "message_description": ""
+    	},
+    	{
+            "message_uid": 4,
+            "message_name": "time_table",
+            "alt_message_name": "MSG_4",
+            "message_acces_tag": "mutable",
+            "message_unique_tag": "shared",
+            "buffer_name": "list_buffer_model",
+            "buffer_size": 10,
+            "registration": false,
+            "sources":
+            [
+                "converter"
+            ],
+            "targets":
+            [
+                "task_distribution"
+            ],
+            "message_description": ""
+    	},
+    	{
+            "message_uid": 5,
+            "message_name": "list_instances",
+            "alt_message_name": "MSG_5",
+            "message_acces_tag": "mutable",
+            "message_unique_tag": "shared",
+            "buffer_name": "list_buffer_model",
+            "buffer_size": 10,
+            "registration": false,
+            "sources":
+            [
+                "database_query"
+            ],
+            "targets":
+            [
+                "task_distribution"
+            ],
+            "message_description": ""
+    	}
+    ]
+}
