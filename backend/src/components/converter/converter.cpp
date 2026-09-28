@@ -245,3 +245,22 @@ void fc_converter::reset() {
         this->iwriter_tasks_ = nullptr;
     }
 }
+
+
+//------------------------------------------------------------------------------------------------------------------------
+//--------------------------------- COMPONENT REGISTRATION ----------------------------------
+//------------------------------------------------------------------------------------------------------------------------
+#include <mps/mps_process_traits/components_traits/components_container/components_container.hpp>
+
+static bool converter_registration() {
+    //(?) Если контейнер для регистрации компонент инициализирован, регистрируем компоненту converter
+    if (register_components_container_) {
+        boost::shared_ptr<mps::process::component::base::base_functional_component> converter_(
+            new td::component::fc_converter("converter"));
+        return register_components_container_->component_registration(converter_,"converter");
+    }
+
+    return false;
+}
+
+static bool converter_registration_ = converter_registration();

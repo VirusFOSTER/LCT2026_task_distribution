@@ -264,3 +264,23 @@ void fc_task_distribution::reset() {
         this->ireader_tasks_ = nullptr;
     }
 }
+
+
+
+//------------------------------------------------------------------------------------------------------------------------
+//--------------------------------- COMPONENT REGISTRATION ----------------------------------
+//------------------------------------------------------------------------------------------------------------------------
+#include <mps/mps_process_traits/components_traits/components_container/components_container.hpp>
+
+static bool task_distribution_registration() {
+    //(?) Если контейнер для регистрации компонент инициализирован, регистрируем компоненту task_distribution
+    if (register_components_container_) {
+        boost::shared_ptr<mps::process::component::base::base_functional_component> task_distribution_(
+            new td::component::fc_task_distribution("task_distribution"));
+        return register_components_container_->component_registration(task_distribution_,"task_distribution");
+    }
+
+    return false;
+}
+
+static bool task_distribution_registration_ = task_distribution_registration();

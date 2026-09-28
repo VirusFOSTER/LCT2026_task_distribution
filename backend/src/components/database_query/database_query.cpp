@@ -416,3 +416,24 @@ void fc_database_query::reset() {
         this->iwriter_tasks_ = nullptr;
     }
 }
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------------
+//--------------------------------- COMPONENT REGISTRATION ----------------------------------
+//------------------------------------------------------------------------------------------------------------------------
+#include <mps/mps_process_traits/components_traits/components_container/components_container.hpp>
+
+static bool database_query_registration() {
+    //(?) Если контейнер для регистрации компонент инициализирован, регистрируем компоненту database_query
+    if (register_components_container_) {
+        boost::shared_ptr<mps::process::component::base::base_functional_component> database_query_(
+            new td::component::fc_database_query("database_query"));
+        return register_components_container_->component_registration(database_query_,"database_query");
+    }
+
+    return false;
+}
+
+static bool database_query_registration_ = database_query_registration();

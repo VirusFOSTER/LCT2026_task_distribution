@@ -234,3 +234,24 @@ msg::tg_get_info fc_request_listener::define_info_subtype(const std::string& sub
 
     return tg_;
 }
+
+
+
+//------------------------------------------------------------------------------------------------------------------------
+//--------------------------------- COMPONENT REGISTRATION ----------------------------------
+//------------------------------------------------------------------------------------------------------------------------
+#include <mps/mps_process_traits/components_traits/components_container/components_container.hpp>
+
+static bool request_listener_registration() {
+    //(?) Если контейнер для регистрации компонент инициализирован, регистрируем компоненту request_listener
+    if (register_components_container_) {
+        boost::shared_ptr<mps::process::component::base::base_functional_component> request_listener_(
+            new td::component::fc_request_listener("request_listener"));
+        return register_components_container_->component_registration(request_listener_,"request_listener");
+    }
+
+    return false;
+}
+
+static bool request_listener_registration_ = request_listener_registration();
+
