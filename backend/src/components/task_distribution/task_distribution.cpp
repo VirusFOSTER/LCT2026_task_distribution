@@ -152,19 +152,17 @@ std::vector<vroom::Vehicle> fc_task_distribution::make_vehicles(const msg::msg_t
     for (uint32_t i = 0; i < instances_->instance_count(); ++i) {
         auto c_instance_ = instances_->get_instance(i);
 
+        // Определяем профиль исполнителя задач
+        auto profile_ = this->define_profile(c_instance_->moving_tag());
+
         // Указываем текущее положение исполнителя задач
         // Если начало рабочего дня, то это дом
         // Если поступает какая-то срочная заявка или происходит отмена, то это текущая выполняемая задача
-        vroom::Location start_position_(time_table_->value(i * tasks_->tasks_count() + i));
-        // vroom::Location start_position_(
-        //     vroom::Coordinates(c_instance_->position().longitude(),c_instance_->position().latitude()));
+        vroom::Location start_position_(time_table_->value(profile_, i * tasks_->tasks_count() + i));
 
         // Устанавливаем точку старта и точку окончания маршрута
         std::optional<vroom::Location> start_location_(start_position_);
         std::optional<vroom::Location> end_location_;
-
-        // Определяем профиль исполнителя задач
-        auto profile_ = this->define_profile(c_instance_->moving_tag());
 
         //(?>) Указываем компетентность исполнителя
         vroom::Skills skills_;

@@ -42,7 +42,16 @@ public:
      * @param size_ - размер буфера хранения задач
      * @return результат инициализации
      */
-    bool init_list(uint32_t size_);
+    inline bool init_list(uint32_t size_) {
+        if (this->tasks_) {
+            delete this->tasks_;
+            this->tasks_ = nullptr;
+        }
+
+        this->tasks_ = new _list_t_(size_);
+
+        return true;
+    }
 
     /**
      * @brief tasks_count - получение количества задач

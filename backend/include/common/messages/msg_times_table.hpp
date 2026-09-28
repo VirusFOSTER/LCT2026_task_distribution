@@ -3,6 +3,7 @@
 
 #include <mps/mps_containers/list/list_buffer.hpp>
 #include <mps/mps_common/utils/json_io/json.hpp>
+#include <algorithm>
 
 namespace td {
 namespace msg {
@@ -38,6 +39,10 @@ public:
         if (this->matricies_.size()) {
             this->matricies_.clear();
         }
+
+        if (this->profiles_.size()) {
+            this->profiles_.clear();
+        }
     }
 
     /**
@@ -62,8 +67,28 @@ public:
         return (midx_ < this->size()) ? (idx_ < this->matrix_size()) ? *(*this->matricies_[midx_])[idx_] : -1.0f : -1.0f;
     }
 
+    inline float value(const std::string& profile_, uint32_t idx_) const {
+        auto midx_ = this->matrix_idx(profile_);
+        return this->value(midx_,idx_);
+    }
+
+    /**
+     * @brief matrix_idx - метод определения индекса матрицы по профилю
+     * @param profile_ - профиль исполнителя задач
+     * @return индекс матрицы
+     */
+    inline uint32_t matrix_idx(const std::string& profile_) const {
+        auto itr_ = std::find_if(this->profiles_.begin(),this->profiles_.end(),[ & ](auto& el_){ return el_ == profile_; });
+        if (itr_ != this->profiles_.end()) {
+            return std::distance(this->profiles_.begin(),itr_);
+        }
+
+        return this->profiles_.size();
+    }
+
 private:
-    _matricies_t_ matricies_ = {};          /// <--- массив временных матриц путей
+    std::vector<std::string> profiles_ = {};    /// <--- массив профилей
+    _matricies_t_ matricies_ = {};              /// <--- массив временных матриц путей
 };
 }       /// <--- msg
 }   /// <--- td

@@ -81,11 +81,19 @@ private:
     bool tasks_valid(const mps::json::array::JsonArray* points_);
 
     /**
-     * @brief matrix_valid - метод верификации матрицы времен путей на валидность
-     * @param matrix_ - содержание запроса
+     * @brief matricies_valid - метода верификации матриц времен путей на валидность
+     * @param request_ - содержание запроса
      * @return результат верификации на валидность
      */
-    bool matrix_valid(const mps::json::object::JsonObject *request_);
+    bool matricies_valid(const mps::json::object::JsonObject* request_);
+
+    /**
+     * @brief matrix_valid - метод верификации матрицы времен путей на валидность
+     * @param request_ - содержание запроса
+     * @param mtx_ - описание матрицы
+     * @return результат верификации на валидность
+     */
+    bool matrix_valid(const mps::json::object::JsonObject *request_, const mps::json::object::JsonObject *mtx_);
 
     /**
      * @brief reset - сброс компоненты

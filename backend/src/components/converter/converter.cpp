@@ -143,9 +143,14 @@ bool fc_converter::make_time_table(const mps::json::object::JsonObject* request_
     },
     ...
    ],
-   "matrix":
-   [[...],
-    ...
+   "matricies":
+   [
+        {
+            "profile": ...,
+            "matrix":
+            [[...],...],
+        },
+        ...
    ]
 }
  */
@@ -157,10 +162,10 @@ bool fc_converter::request_valid(const mps::json::object::JsonObject* request_) 
             request_->hasProperty("pointCount") &&
             request_->hasProperty("points") &&
             request_->asArray("points") &&
-            request_->hasProperty("matrix") &&
-            request_->asArray("matrix") &&
+            request_->hasProperty("matricies") &&
+            request_->asArray("matricies") &&
             this->tasks_valid(request_->asArray("points")) &&
-            this->matrix_valid(request_);
+            this->matricies_valid(request_);
 }
 
 //-----------------------------------------------------------------------------------
@@ -188,15 +193,31 @@ bool fc_converter::tasks_valid(const mps::json::array::JsonArray* points_) {
 
 //-----------------------------------------------------------------------------------
 
-bool fc_converter::matrix_valid(const mps::json::object::JsonObject* request_) {
+bool fc_converter::matricies_valid(const mps::json::object::JsonObject* request_) {
+    //(?>) Проверяем кажду матрицу на валидность
+    for (int32_t i = 0; i < request_->asArray("matricies")->size(); ++i) {
+        auto mtx_ = request_->asArray("matricies")->asObject(i);
+        if (!this->matrix_valid(request_, mtx_)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+//-----------------------------------------------------------------------------------
+
+bool fc_converter::matrix_valid(const mps::json::object::JsonObject* request_, const mps::json::object::JsonObject* mtx_) {
     //(?>) Проверяем описание временной матрицы и возвращаем соответствующий результат
-    if (request_->asInteger("pointCount") != request_->asArray("matrix")->size()) {
+    if (!mtx_->asArray("matrix") ||
+        !mtx_->hasProperty("profile") ||
+        request_->asInteger("pointCount") != mtx_->asArray("matrix")->size()) {
         return false;
     }
 
     for (int32_t i = 0; i < request_->asArray("matrix")->size(); ++i) {
-        if (!request_->asArray("matrix")->asArray(i) ||
-                request_->asArray("matrix")->asArray(i)->size() != request_->asInteger("pointCount")) {
+        if (!mtx_->asArray("matrix")->asArray(i) ||
+                mtx_->asArray("matrix")->asArray(i)->size() != request_->asInteger("pointCount")) {
             return false;
         }
     }

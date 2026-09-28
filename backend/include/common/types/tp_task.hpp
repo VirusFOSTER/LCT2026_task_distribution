@@ -21,6 +21,11 @@ public:
     explicit tp_task(const mps::json::object::JsonObject* obj_cfg_);
 
     /**
+     * @brief tp_task - конструктор (по умолчанию)
+     */
+    explicit tp_task() = default;
+
+    /**
      * деструктор
      */
     ~tp_task() = default;
