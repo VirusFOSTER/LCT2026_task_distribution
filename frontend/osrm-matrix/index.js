@@ -2,9 +2,9 @@ const fs = require('fs/promises');
 const path = require('path');
 
 // Путь к файлу с исходными точками
-const INPUT_FILE = './tasks_yugotsentr.json';
+const INPUT_FILE = './request.json';
 // Путь к итоговому файлу с матрицей
-const OUTPUT_FILE = './travel-time-matrix.json';
+const OUTPUT_FILE = './init_task_distribution.json';
 
 /**
  * Читает JSON-файл с точками и приводит их к единому виду.
@@ -58,7 +58,7 @@ async function getTravelTimeMatrix(coordinates) {
     }
 
     const coordsString = coordinates.map(([lon, lat]) => `${lon},${lat}`).join(';');
-    const url = `https://router.project-osrm.org/table/v1/driving/${coordsString}?annotations=duration`;
+    const url = `https://router.project-osrm.org/table/v1/transit/${coordsString}?annotations=duration`;
 
     const response = await fetch(url);
 

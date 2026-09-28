@@ -1,0 +1,995 @@
+{   
+    "tasks":
+    [
+        {
+            "task_uid": 0,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 1,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 2,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 3,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 4,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 5,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 6,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 7,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 8,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 9,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 10,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 305894566,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.710748,
+                "longitude": 37.640300
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305923871,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.716732,
+                "longitude": 37.660431
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305857442,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.717857,
+                "longitude": 37.636689
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305848096,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.688949,
+                "longitude": 37.592366
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 20:00",
+                "time_end": "17.08.2026 22:00"
+            }
+        },
+        {
+            "task_uid": 305715188,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.670290,
+                "longitude": 37.589213
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 20:00",
+                "time_end": "17.08.2026 22:00"
+            }
+        },
+        {
+            "task_uid": 305885689,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.652141,
+                "longitude": 37.567967
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305896115,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.689502,
+                "longitude": 37.573366
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305826867,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.685691,
+                "longitude": 37.581631
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 14:00",
+                "time_end": "17.08.2026 16:00"
+            }
+        },
+        {
+            "task_uid": 305888827,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.724226,
+                "longitude": 37.563539
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305923588,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.685594,
+                "longitude": 37.588620
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305911433,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.642382,
+                "longitude": 37.596803
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305885500,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.670407,
+                "longitude": 37.652508
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305896271,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.650810,
+                "longitude": 37.589626
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305862599,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.726299,
+                "longitude": 37.635269
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305885170,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.740740,
+                "longitude": 37.576043
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305894946,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.684828,
+                "longitude": 37.680275
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305897647,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.684031,
+                "longitude": 37.687165
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305848336,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.679204,
+                "longitude": 37.688440
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305924398,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.706482,
+                "longitude": 37.657700
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305597759,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.691207,
+                "longitude": 37.586688
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305773274,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.683899,
+                "longitude": 37.679215
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 20:00",
+                "time_end": "17.08.2026 22:00"
+            }
+        },
+        {
+            "task_uid": 305892707,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.694084,
+                "longitude": 37.582502
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305853788,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.644796,
+                "longitude": 37.597693
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305865903,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.657636,
+                "longitude": 37.583293
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305836042,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.682453,
+                "longitude": 37.673070
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305857303,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.683620,
+                "longitude": 37.704493
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305888542,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.742382,
+                "longitude": 37.583463
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305893538,
+            "task_type": "connection",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.725057,
+                "longitude": 37.565245
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305866081,
+            "task_type": "additional_order",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.695012,
+                "longitude": 37.579574
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 20:00",
+                "time_end": "17.08.2026 22:00"
+            }
+        },
+        {
+            "task_uid": 305914018,
+            "task_type": "additional_order",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.675737,
+                "longitude": 37.603909
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 20:00",
+                "time_end": "17.08.2026 22:00"
+            }
+        },
+        {
+            "task_uid": 305927115,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.694698,
+                "longitude": 37.582942
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305897880,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.669747,
+                "longitude": 37.649714
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 20:00",
+                "time_end": "17.08.2026 22:00"
+            }
+        },
+        {
+            "task_uid": 305887153,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.690024,
+                "longitude": 37.585395
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305887469,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.649769,
+                "longitude": 37.570474
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 20:00",
+                "time_end": "17.08.2026 22:00"
+            }
+        },
+        {
+            "task_uid": 305892304,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.648697,
+                "longitude": 37.606361
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305866266,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.655254,
+                "longitude": 37.609479
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305889051,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.700933,
+                "longitude": 37.661464
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305889406,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.677692,
+                "longitude": 37.693803
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305910621,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.687984,
+                "longitude": 37.687371
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305868762,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.668838,
+                "longitude": 37.658419
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305886206,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.676986,
+                "longitude": 37.685611
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 20:00",
+                "time_end": "17.08.2026 22:00"
+            }
+        },
+        {
+            "task_uid": 305835850,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.715256,
+                "longitude": 37.618048
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 14:00",
+                "time_end": "17.08.2026 16:00"
+            }
+        },
+        {
+            "task_uid": 305845228,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.691166,
+                "longitude": 37.607323
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305886379,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.710570,
+                "longitude": 37.642016
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 12:00",
+                "time_end": "17.08.2026 14:00"
+            }
+        },
+        {
+            "task_uid": 305889212,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.723334,
+                "longitude": 37.628702
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305920660,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.709333,
+                "longitude": 37.611958
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305924262,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.712903,
+                "longitude": 37.660251
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305856351,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.690014,
+                "longitude": 37.590398
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305893337,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.685939,
+                "longitude": 37.568731
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305897498,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.680641,
+                "longitude": 37.559353
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 14:00",
+                "time_end": "17.08.2026 16:00"
+            }
+        },
+        {
+            "task_uid": 304468627,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.654305,
+                "longitude": 37.603541
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 18:00",
+                "time_end": "17.08.2026 20:00"
+            }
+        },
+        {
+            "task_uid": 305820725,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.727572,
+                "longitude": 37.622387
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 14:00",
+                "time_end": "17.08.2026 16:00"
+            }
+        },
+        {
+            "task_uid": 305832359,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.675737,
+                "longitude": 37.603909
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 10:00",
+                "time_end": "17.08.2026 12:00"
+            }
+        },
+        {
+            "task_uid": 305922446,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.652364,
+                "longitude": 37.615524
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 16:00",
+                "time_end": "17.08.2026 18:00"
+            }
+        },
+        {
+            "task_uid": 305915645,
+            "task_type": "local_request",
+            "task_region": "yugotsentr",
+            "position":
+            {
+                "latitude": 55.655508,
+                "longitude": 37.581370
+            },
+            "time_window":
+            {
+                "time_begin": "17.08.2026 14:00",
+                "time_end": "17.08.2026 16:00"
+            }
+        }
+    ]
+}
