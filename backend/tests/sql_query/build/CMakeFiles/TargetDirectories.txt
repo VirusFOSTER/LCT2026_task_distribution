@@ -1,3 +1,0 @@
-/home/virus_foster/projects/hakatons/LCT2026_task_distribution/backend/tests/sql_query/build/CMakeFiles/sql_query.dir
-/home/virus_foster/projects/hakatons/LCT2026_task_distribution/backend/tests/sql_query/build/CMakeFiles/edit_cache.dir
-/home/virus_foster/projects/hakatons/LCT2026_task_distribution/backend/tests/sql_query/build/CMakeFiles/rebuild_cache.dir
