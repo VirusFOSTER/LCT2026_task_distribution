@@ -33,7 +33,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 2,
             "instance_name": "name_3",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",
@@ -48,7 +48,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 3,
             "instance_name": "name_4",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",
@@ -63,7 +63,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 4,
             "instance_name": "name_5",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",
@@ -78,7 +78,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 5,
             "instance_name": "name_6",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",
@@ -93,7 +93,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 6,
             "instance_name": "name_7",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",
@@ -108,7 +108,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 7,
             "instance_name": "name_8",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",
@@ -123,7 +123,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 8,
             "instance_name": "name_9",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",
@@ -138,7 +138,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 9,
             "instance_name": "name_10",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",
@@ -153,7 +153,7 @@
             ]
         },
         {
-            "instance_uid": 1,
+            "instance_uid": 10,
             "instance_name": "name_11",
             "intance_region": "yugotsentr",
             "instance_moving_type": "car",

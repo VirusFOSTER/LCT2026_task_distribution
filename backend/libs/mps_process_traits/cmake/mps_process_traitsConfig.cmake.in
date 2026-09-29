@@ -1,0 +1,6 @@
+@PACKAGE_INIT@
+include(CMakeFindDependencyMacro)
+find_dependency(Boost COMPONENTS thread system) # <--- Добавьте это
+find_dependency(Qt6 COMPONENTS Core) # Если используете Qt6, или Qt5
+include("${CMAKE_CURRENT_LIST_DIR}/mps_process_traitsTargets.cmake")
+check_required_components(mps_process_traits)

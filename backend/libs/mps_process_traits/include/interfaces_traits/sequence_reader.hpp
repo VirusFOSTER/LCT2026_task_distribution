@@ -70,6 +70,11 @@ Isequence_reader<T>::Isequence_reader(buffer::buffer_concept<_message_t_>* bf_) 
 //----------------------------------------------------------------------
 
 template <typename T>
+Isequence_reader<T>::~Isequence_reader() {}
+
+//----------------------------------------------------------------------
+
+template <typename T>
 Isequence_reader<T>::_rd_message_t_* Isequence_reader<T>::read_next_element() {
     return (this->buffer_) ? this->buffer_->read_next_element(this->message_) : nullptr;
 }

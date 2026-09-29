@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.22)
 
 project(mps_common VERSION 1.0 LANGUAGES CXX)
 set(MAIN_PROJECT mps)

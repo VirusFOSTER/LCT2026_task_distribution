@@ -8,6 +8,7 @@
     {
       "index": 11,
       "task_uid": 305894566,
+      "task_type": "connection",
       "task_region": "yugotsentr",
       "lat": 55.710748,
       "lon": 37.6403,
@@ -19,6 +20,7 @@
     {
       "index": 12,
       "task_uid": 305923871,
+      "task_type": "connection",
       "task_region": "yugotsentr",
       "lat": 55.716732,
       "lon": 37.660431,
@@ -30,6 +32,7 @@
     {
       "index": 13,
       "task_uid": 305857442,
+      "task_type": "connection",
       "task_region": "yugotsentr",
       "lat": 55.717857,
       "lon": 37.636689,
@@ -41,6 +44,7 @@
     {
       "index": 14,
       "task_uid": 305848096,
+      "task_type": "connection",
       "task_region": "yugotsentr",
       "lat": 55.688949,
       "lon": 37.592366,
@@ -52,6 +56,7 @@
     {
       "index": 15,
       "task_uid": 305715188,
+      "task_type": "connection",
       "task_region": "yugotsentr",
       "lat": 55.67029,
       "lon": 37.589213,

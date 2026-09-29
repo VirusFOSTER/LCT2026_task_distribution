@@ -67,6 +67,11 @@ Isequence_writer<T>::Isequence_writer(buffer::buffer_concept<_message_t_>* bf_) 
 //------------------------------------------------------------------------
 
 template <typename T>
+Isequence_writer<T>::~Isequence_writer() {}
+
+//------------------------------------------------------------------------
+
+template <typename T>
 bool Isequence_writer<T>::add_new_element(_wr_message_t_* ptr_message_) {
     return (this->buffer_) ? this->buffer_->add_new_element(ptr_message_) : false;
 }

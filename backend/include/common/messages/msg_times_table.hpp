@@ -57,6 +57,13 @@ public:
      */
     inline uint32_t matrix_size() const { return (this->matricies_.size()) ? this->matricies_[0]->length() : 0; }
 
+        /**
+         * @brief profile - получение профиля по индексу матрицы
+         * @param idx_ - индекс матрицы
+         * @return профиль матрицы
+         */
+        inline std::string profile(uint32_t idx_) const { return (idx_ < this->profiles_.size()) ? this->profiles_[idx_] : ""; }
+
     /**
      * @brief value - метод получения времени пути по индексу
      * @param midx_ - идентификатор матрицы

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.22)
 
 project(mps_process_traits VERSION 1.0 LANGUAGES CXX)
 set(MAIN_PROJECT mps)
@@ -239,43 +239,64 @@ set(PROJECT_SOURCES
     ${MPS_PROCESS_TRAITS_SOURCES}
 )
 
+include_directories(include)
+
 set(CMAKE_INSTALL_PREFIX "/usr/local")
 
 add_library(${PROJECT_NAME} STATIC ${PROJECT_SOURCES})
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE
+    PUBLIC
         ${Boost_LIBRARIES}
         Qt${QT_VERSION_MAJOR}::Core
+        pthread
+  	boost_thread
         ${mps_common_LIBRARIES}
 )
 
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}_export)
-export(EXPORT ${PROJECT_NAME}_export FILE cmake/${PROJECT_NAME}-targets.cmake)
+# Определяем путь установки для заголовков
+set(include_install_dir "include/${MAIN_PROJECT}/${PROJECT_NAME}")
 
 target_sources(${PROJECT_NAME}
     PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_SOURCES}>
-        $<INSTALL_INTERFACE:include>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${include_install_dir}>
 )
 
 target_include_directories(${PROJECT_NAME} INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${include_install_dir}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>	
-    $<INSTALL_INTERFACE:include/${MAIN_PROJECT}/${PROJECT_NAME}>
 )
 
-install(DIRECTORY include/ DESTINATION include/${MAIN_PROJECT}/${PROJECT_NAME})
-install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Config)
-install(EXPORT ${PROJECT_NAME}Config DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake)
+# Установка заголовков
+install(DIRECTORY include/ DESTINATION ${include_install_dir})
+
+# Экспорт цели с пространством имен
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets)
+install(EXPORT ${PROJECT_NAME}Targets
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE mps::
+    DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake
+)
 
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file("${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-    VERSION
-        ${PROJECT_VERSION}
-    COMPATIBILITY
-        AnyNewerVersion
+
+# Генерация файла версии
+write_basic_package_version_file(
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
 )
 
-install(FILES "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake" DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake)
+# Генерация основного Config-файла
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in"
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake
+)
 
-include_directories(include)
+# Установка Config-файлов
+install(FILES
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    "${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION share/${MAIN_PROJECT}/${PROJECT_NAME}/cmake
+)

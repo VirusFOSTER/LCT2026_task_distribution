@@ -56,7 +56,8 @@
             ],
             "targets":
             [
-                "task_distribution"
+                "task_distribution",
+                "database_query"
             ],
             "message_description": ""
     	},

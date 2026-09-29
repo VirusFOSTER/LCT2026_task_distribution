@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.22)
 
 project(task_distribution LANGUAGES C CXX)
 
@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_definitions(-DVISUALIZATION_PROJECT_PATH="${PROJECT_SOURCE_DIR}")
+add_definitions(-DPROJECT_PATH="${PROJECT_SOURCE_DIR}")
 
 ###############################################################
 ################  MPS COMMON    ###############################
@@ -117,9 +117,9 @@ target_link_libraries(${PROJECT_NAME}
   Qt6::Core
   pthread
   boost_thread
-  mps::mps_common
-  mps::mps_containers
-  mps::mps_process_traits
+  ${mps_common_LIBRARIES}
+  ${mps_containers_LIBRARIES}
+  ${mps_process_traits_LIBRARIES}
   ${VROOM_ROOT}/lib/libvroom.a
   ${GLPK_LIBRARY}
   OpenSSL::SSL

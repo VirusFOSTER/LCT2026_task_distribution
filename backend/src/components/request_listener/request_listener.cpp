@@ -8,6 +8,7 @@
 #define STR_SUBTYPE_UPDATE_DATABASE         (std::string)"append_instances"
 #define STR_SUBTYPE_REMOVE_INSTANCES        (std::string)"remove_instances"
 #define STR_SUBTYPE_BLOCK_INSTANCES         (std::string)"block_instances"
+#define STR_SUBTYPE_UPDATE_POSITIONS        (std::string)"update_positions"
 
 #define STR_SUBTYPE_PROCESSING_TASK_DISTRIBUTION                (std::string)"task_distribution"
 #define STR_SUBTYPE_PROCESSING_PROCESS_EMERGENCY                (std::string)"process_emergency"
@@ -156,6 +157,7 @@ msg::tg_update fc_request_listener::define_update_subtype(const std::string& sub
     if (subtype_ == STR_SUBTYPE_UPDATE_DATABASE) { tg_ = msg::tg_update::_tg_append_instances_; }
     else if (subtype_ == STR_SUBTYPE_REMOVE_INSTANCES) { tg_ = msg::tg_update::_tg_remove_instances_; }
     else if (subtype_ == STR_SUBTYPE_BLOCK_INSTANCES) { tg_ = msg::tg_update::_tg_block_instances_; }
+    else if (subtype_ == STR_SUBTYPE_UPDATE_POSITIONS) { tg_ = msg::tg_update::_tg_update_position_; }
 
     //(?) Если подтип запроса определен, формируем соответствующее сообщение в модуль запросов к базе данных
     if (tg_ != msg::tg_update::_tg_unknown_) {

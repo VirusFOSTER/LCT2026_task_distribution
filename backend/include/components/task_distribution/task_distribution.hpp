@@ -76,9 +76,11 @@ private:
     /**
      * @brief make_jobs - метод формирования описания задач в формате vroom-фреймворка
      * @param tasks_ - описание задач
+     * @param instances_ - список исполнителей задач
      * @return массив выполняемых задач в формает vroom
      */
-    std::vector<vroom::Job> make_jobs(const msg::msg_tasks_list* const tasks_);
+    std::vector<vroom::Job> make_jobs(const msg::msg_tasks_list* const tasks_,
+                                      const msg::msg_list_instances* const instances_);
 
     /**
      * @brief define_profile - конвертация метки движения в тип string
@@ -88,9 +90,29 @@ private:
     std::string define_profile(types::tg_moving tg_);
 
     /**
+     * @brief define_service - метка определения длительности выполнения работ по типу данных
+     * @param tp_ - метка типа задачи
+     * @return длительность выполнения задачи
+     */
+    vroom::UserDuration define_service(types::tg_task tp_);
+
+    /**
+     * @brief define_priority - определение приоритете задачи
+     * @param tp_ - тип задачи
+     * @return приоритет задачи
+     */
+    uint32_t define_priority(types::tg_task tp_);
+
+    /**
      * @brief reset - сброс компоненты
      */
     void reset();
+
+    /**
+     * @brief log_solution - логирование по распределению задач
+     * @param sol - полученное решение
+     */
+    void log_solution(const vroom::Solution& sol);
 
 private:
     _Iinstances_t_* ireader_instance_ = nullptr;        /// <--- указатель на интерфейс читателя исполнителей задач

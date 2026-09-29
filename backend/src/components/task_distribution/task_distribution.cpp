@@ -10,6 +10,102 @@ const std::string PROFILE_BIKE    = "bike";
 const std::string PROFILE_FOOT    = "foot";
 const std::string PROFILE_TRANSIT = "transit";
 
+/**
+ * @brief print_summary_table - вывод общей информации в консоль
+ * @param sol - полученное решение задачи
+ */
+void print_summary_table(const vroom::Solution& sol) {
+    // Считаем статистику
+    struct Row {
+        int vehicle;
+        std::string profile;
+        int jobs;
+        int duration_sec;
+        int service_sec;
+        int distance_m;
+        int finish_time;   // время завершения последней задачи
+    };
+    std::vector<Row> rows;
+
+    for (const auto& r : sol.routes) {
+        int jobs = 0;
+        int last_arrival = 0;
+        for (const auto& s : r.steps) {
+            if (s.step_type == vroom::STEP_TYPE::JOB) {
+                ++jobs;
+                last_arrival = s.arrival + s.service;
+            }
+        }
+        if (jobs == 0) continue;
+
+        rows.push_back({
+            static_cast<int>(r.vehicle),
+            r.profile,
+            jobs,
+            static_cast<int>(r.duration),
+            static_cast<int>(r.service),
+            static_cast<int>(r.distance),
+            last_arrival
+        });
+    }
+
+    // Заголовок
+    const int W = 12;
+    auto line = [&]() {
+        std::cout << '\033[32m+' << std::string(W, '-') << '+'
+                  << std::string(W, '-') << '+'
+                  << std::string(W, '-') << '+'
+                  << std::string(W, '-') << '+'
+                  << std::string(W, '-') << '+'
+                  << std::string(W, '-') << '+'
+                  << std::string(W, '-') << "+\n";
+    };
+
+    line();
+    std::cout << '|' << std::setw(W) << "Рабочий"
+              << '|' << std::setw(W) << "Профиль"
+              << '|' << std::setw(W) << "Задач"
+              << '|' << std::setw(W) << "Время,мин"
+              << '|' << std::setw(W) << "Сервис,мин"
+              << '|' << std::setw(W) << "Пробег,км"
+              << '|' << std::setw(W) << "Финиш"
+              << "|\n";
+    line();
+
+    auto fmt_time = [](int sec) {
+        int h = sec / 3600;
+        int m = (sec % 3600) / 60;
+        char buf[8];
+        std::snprintf(buf, sizeof(buf), "%02d:%02d", h, m);
+        return std::string(buf);
+    };
+
+    for (const auto& r : rows) {
+        std::cout << '|' << std::setw(W) << r.vehicle
+                  << '|' << std::setw(W) << r.profile
+                  << '|' << std::setw(W) << r.jobs
+                  << '|' << std::setw(W) << r.duration_sec / 60
+                  << '|' << std::setw(W) << r.service_sec / 60
+                  << '|' << std::setw(W) << std::fixed << std::setprecision(1)
+                         << r.distance_m / 1000.0
+                  << '|' << std::setw(W) << fmt_time(r.finish_time)
+                  << "|\n";
+    }
+    line();
+
+    // Итоги
+    int total_jobs = 0, total_dist = 0;
+    for (const auto& r : rows) {
+        total_jobs += r.jobs;
+        total_dist += r.distance_m;
+    }
+    std::cout << "Использовано рабочих: " << rows.size()
+              << " | Задач: " << total_jobs
+              << " | Суммарный пробег: "
+              << std::fixed << std::setprecision(1)
+              << total_dist / 1000.0 << " км\n\n\033[0m";
+}
+
 //-----------------------------------------------------------------------------------
 
 fc_task_distribution::fc_task_distribution(const std::string& fc_name_) :
@@ -118,15 +214,29 @@ void fc_task_distribution::make_solve_problem(const msg::msg_tasks_list* const t
     algorithms::vroom_problem_solver vroom_(shift_);
     vroom_.init_problem();
 
+    //(?>) Формируем временные матрицы путей
+    std::vector<std::pair<std::string,vroom::Matrix<vroom::UserDuration>>> matricies_ = {};
+    for (uint32_t i = 0; i < time_table_->size(); ++i) {
+        vroom::Matrix<vroom::UserDuration> matrix_(time_table_->matrix_size());
+        for (uint32_t j = 0; j < time_table_->matrix_size(); ++j) {
+            for (uint32_t k = 0; k < time_table_->matrix_size(); ++k) {
+                matrix_[i][j] = time_table_->value(i, j * time_table_->matrix_size() + k);
+            }
+        }
+        matricies_.push_back(std::make_pair(time_table_->profile(i),matrix_));
+    }
+    vroom_.set_moving_maxtricies(matricies_);
+
     // Составляем описание задач и исполнителей для фреймворка vroom
     auto vehicles_ = this->make_vehicles(tasks_, instances_, time_table_);
-    auto jobs_ = this->make_jobs(tasks_);
+    auto jobs_ = this->make_jobs(tasks_,instances_);
 
     vroom_.set_tasks(jobs_);
     vroom_.set_instances(vehicles_);
 
     // Выполняем задачу о назначениях
-    vroom_.solve_problem();
+    auto solution_ = vroom_.solve_problem();
+    print_summary_table(solution_);
 }
 
 //-----------------------------------------------------------------------------------
@@ -139,11 +249,11 @@ std::vector<vroom::Vehicle> fc_task_distribution::make_vehicles(const msg::msg_t
 
     // Фиксированная стоимость, чтобы минимизировать число задействованных ТС
     vroom::VehicleCosts costs_(
-        1'000'000,   // fixed
-        3600,        // per_hour
-        0,           // per_km
-        0            // per_task_hour
-        );
+                1'000'000,   // fixed
+                3600,        // per_hour
+                0,           // per_km
+                0            // per_task_hour
+                );
 
     //(?>) Формируем описание исполнителей задач в формате vroom-фреймворка
     std::vector<vroom::Vehicle> vehicles_ = {};
@@ -175,17 +285,17 @@ std::vector<vroom::Vehicle> fc_task_distribution::make_vehicles(const msg::msg_t
 
         // Формируем описание исоплнителя задачи в тип vroom-фреймворка
         vroom::Vehicle vehicle_(
-            i + 1,
-            start_location_,
-            end_location_,
-            profile_,
-            vroom::Amount(0),
-            skills_,
-            shift_,
-            {},
-            "",
-            costs_
-            );
+                    i + 1,
+                    start_location_,
+                    end_location_,
+                    profile_,
+                    vroom::Amount(0),
+                    skills_,
+                    shift_,
+                    {},
+                    "",
+                    costs_
+                    );
 
         // Добавляем исполнителя в массив
         vehicles_.emplace_back(vehicle_);
@@ -196,7 +306,8 @@ std::vector<vroom::Vehicle> fc_task_distribution::make_vehicles(const msg::msg_t
 
 //-----------------------------------------------------------------------------------
 
-std::vector<vroom::Job> fc_task_distribution::make_jobs(const msg::msg_tasks_list* const tasks_) {
+std::vector<vroom::Job> fc_task_distribution::make_jobs(const msg::msg_tasks_list* const tasks_,
+                                                        const msg::msg_list_instances* const instances_) {
     std::vector<vroom::Job> jobs_ = {};
     jobs_.reserve(tasks_->tasks_count());
 
@@ -204,24 +315,24 @@ std::vector<vroom::Job> fc_task_distribution::make_jobs(const msg::msg_tasks_lis
         auto c_task_ = tasks_->get_task(i);
 
         // Указываем положение задачи на карте
-        vroom::Location task_location_(
-            vroom::Coordinates(c_task_->task_position().longitude(),c_task_->task_position().latitude()));
+        vroom::Location task_location_(instances_->instance_count() + i);
 
-        vroom::UserDuration task_service_;  // TODO: требуется заоплнение
-        vroom::Skills require_skills_;      // TODO: требуется заполнение
+        vroom::UserDuration task_service_ = this->define_service(c_task_->task_type());
+        vroom::Skills require_skills_;
+        require_skills_.insert((uint32_t)c_task_->task_type());
 
         // Формируем описание задачи в формате vroom-фреймворка
         vroom::Job job_(
-            c_task_->task_uid(),
-            task_location_,
-            0,
-            task_service_,
-            vroom::Amount(0),
-            vroom::Amount(0),
-            require_skills_,
-            0,      // TODO: должен определяться исходя из описания
-            { vroom::TimeWindow(c_task_->get_seconds_begin(), c_task_->get_seconds_end()) }
-            );
+                    c_task_->task_uid(),
+                    task_location_,
+                    0,
+                    task_service_,
+                    vroom::Amount(0),
+                    vroom::Amount(0),
+                    require_skills_,
+                    this->define_priority(c_task_->task_type()),
+                    { vroom::TimeWindow(c_task_->get_seconds_begin(), c_task_->get_seconds_end()) }
+                    );
 
         jobs_.emplace_back(job_);
     }
@@ -245,6 +356,30 @@ std::string fc_task_distribution::define_profile(types::tg_moving tg_) {
     return "";
 }
 
+vroom::UserDuration fc_task_distribution::define_service(types::tg_task tp_) {
+    switch (tp_) {
+    case types::tg_task::_tg_emergency_: { return 80 * 60; } break;
+    case types::tg_task::_tg_connection_: { return 60 * 60; } break;
+    case types::tg_task::_tg_additional_order_: { return 10 * 60; } break;
+    case types::tg_task::_tg_local_task_: { return 30 * 60; } break;
+    case types::tg_task::_tg_unknown_: { return 0; }
+    }
+
+    return 0;
+}
+
+uint32_t fc_task_distribution::define_priority(types::tg_task tp_) {
+    switch (tp_) {
+    case types::tg_task::_tg_emergency_: { return 100; } break;
+    case types::tg_task::_tg_connection_: { return 30; } break;
+    case types::tg_task::_tg_additional_order_: { return 10; } break;
+    case types::tg_task::_tg_local_task_: { return 10; } break;
+    case types::tg_task::_tg_unknown_: { return 0; }
+    }
+
+    return 0;
+}
+
 //-----------------------------------------------------------------------------------
 
 void fc_task_distribution::reset() {
@@ -265,6 +400,61 @@ void fc_task_distribution::reset() {
     }
 }
 
+//-----------------------------------------------------------------------------------
+
+void fc_task_distribution::log_solution(const vroom::Solution& sol) {
+    std::cout << "=== СВОДКА ===\n";
+    std::cout << "Общая стоимость:       " << sol.summary.cost << "\n";
+    std::cout << "Не выполнено задач:    " << sol.unassigned.size() << "\n";
+
+    if (!sol.unassigned.empty()) {
+        std::cout << "ID невыполненных задач: ";
+        for (const auto& j : sol.unassigned) {
+            std::cout << j.id << " ";
+        }
+        std::cout << "\n";
+    }
+
+    // Считаем, сколько машин реально использовано
+    int used = 0;
+    for (const auto& r : sol.routes) {
+        for (const auto& s : r.steps) {
+            if (s.step_type == vroom::STEP_TYPE::JOB) { ++used; break; }
+        }
+    }
+    std::cout << "Использовано рабочих:  " << used << "\n";
+
+    std::cout << "\n=== МАРШРУТЫ ===\n";
+    for (const auto& route : sol.routes) {
+        // Пропускаем пустые маршруты
+        int job_count = 0;
+        for (const auto& s : route.steps)
+            if (s.step_type == vroom::STEP_TYPE::JOB) ++job_count;
+        if (job_count == 0) continue;
+
+        std::cout << "\nРабочий " << route.vehicle
+                  << " | задач: " << job_count
+                  << " | стоимость: " << route.cost
+                  << " | длительность: " << route.duration / 60 << " мин"
+                  << " | сервис: " << route.service / 60 << " мин\n";
+
+        for (const auto& step : route.steps) {
+            std::string type;
+            switch (step.step_type) {
+            case vroom::STEP_TYPE::START: type = "СТАРТ  "; break;
+            case vroom::STEP_TYPE::END:   type = "КОНЕЦ  "; break;
+            case vroom::STEP_TYPE::JOB:   type = "ЗАДАЧА "; break;
+            case vroom::STEP_TYPE::BREAK:
+                break;
+            }
+
+            int h = step.arrival / 3600;
+            int m = (step.arrival % 3600) / 60;
+        }
+    }
+}
+
+
 
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -276,7 +466,7 @@ static bool task_distribution_registration() {
     //(?) Если контейнер для регистрации компонент инициализирован, регистрируем компоненту task_distribution
     if (register_components_container_) {
         boost::shared_ptr<mps::process::component::base::base_functional_component> task_distribution_(
-            new td::component::fc_task_distribution("task_distribution"));
+                    new td::component::fc_task_distribution("task_distribution"));
         return register_components_container_->component_registration(task_distribution_,"task_distribution");
     }
 

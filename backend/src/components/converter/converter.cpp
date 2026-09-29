@@ -93,7 +93,9 @@ bool fc_converter::make_tasks_lists(const mps::json::object::JsonObject* request
         //(?>) Формируем описание всех задач на выполнение
         free_element_->element_->init_list(request_->asArray("points")->size());
         for (int32_t i = 0; i < request_->asArray("points")->size(); ++i) {
-            free_element_->element_->append_task(new types::tp_task(request_->asArray("points")->asObject(i)));
+            auto new_task_ = new types::tp_task(request_->asArray("points")->asObject(i));
+            new_task_->set_time_create(request_->asString("time"));
+            free_element_->element_->append_task(new_task_);
         }
 
         // Отправляем сообщение с описанием задач на исоплнение

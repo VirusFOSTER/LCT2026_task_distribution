@@ -2,6 +2,171 @@
     "tasks":
     [
         {
+            "task_uid": 0,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.572872,
+                "latitude": 55.737791
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 1,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.664967,
+                "latitude": 55.678250
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 2,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.688171,
+                "latitude": 55.680087
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 3,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.582996,
+                "latitude": 55.690567
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 4,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.672127,
+                "latitude": 55.680783
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 5,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.565021,
+                "latitude": 55.723151
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 6,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.607053,
+                "latitude": 55.656687
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 7,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.659757,
+                "latitude": 55.677067
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 8,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.624842,
+                "latitude": 55.726834
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 9,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.577678,
+                "latitude": 55.687010
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
+            "task_uid": 10,
+            "task_type": "",
+            "task_region": "",
+            "position":
+            {
+                "longitude": 37.603514,
+                "latitude": 55.678118
+            },
+            "time_window":
+            {
+                "time_begin": "",
+                "time_end": ""
+            }
+        },
+        {
             "task_uid": 305894566,
             "task_type": "connection",
             "task_region": "yugotsentr",
@@ -819,21 +984,6 @@
             {
                 "latitude": 55.655508,
                 "longitude": 37.581370
-            },
-            "time_window":
-            {
-                "time_begin": "17.08.2026 14:00",
-                "time_end": "17.08.2026 16:00"
-            }
-        },
-        {
-            "task_uid": 305816952,
-            "task_type": "global_problem",
-            "task_region": "yugotsentr",
-            "position":
-            {
-                "latitude": 55.687512,
-                "longitude": 37.543389
             },
             "time_window":
             {

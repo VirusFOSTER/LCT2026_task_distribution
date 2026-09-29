@@ -32,15 +32,19 @@ public:
 
     inline uint32_t task_uid() { return this->task_uid_; }
     inline tg_task task_type() const { return this->task_type_; }
+    inline tg_status task_status() const { return this->task_status_; }
     inline tp_position task_position() const { return this->position_; }
     inline tp_time_window time_window() const { return this->time_window_; }
     inline std::string region() const { return this->task_region_; }
+    inline std::string time_create() const { return this->time_create_; }
 
     inline void set_task_uid(uint32_t uid_) { this->task_uid_ = uid_; }
     inline void set_task_type(tg_task type_) { this->task_type_ = type_; }
+    inline void set_task_status(tg_status status_) { this->task_status_ = status_; }
     inline void set_postion(tp_position pose_) { this->position_ = pose_; }
     inline void set_time_window(tp_time_window time_wind_) { this->time_window_ = time_wind_; }
     inline void set_region(const std::string& region_) { this->task_region_ = region_; }
+    inline void set_time_create(const std::string& t_) { this->time_create_ = t_; }
 
     inline long long get_seconds_begin() { return this->get_seconds_from_start_day(this->time_window_.time_begin()); }
     inline long long get_seconds_end() { return this->get_seconds_from_start_day(this->time_window_.time_end()); }
@@ -79,9 +83,11 @@ private:
 
     uint32_t task_uid_ = 0;                         /// <--- уникальный идентификатор задачи на исоплнение
     tg_task task_type_ = tg_task::_tg_unknown_;     /// <--- тип задачи на выполнение
+    tg_status task_status_ = tg_status::_tg_free_;  /// <--- статус задачи
     tp_position position_;                          /// <--- положение задачи на карте
     tp_time_window time_window_;                    /// <--- временное окно выполнения задачи
     std::string task_region_ = "";                  /// <--- регион исполняемой задачи
+    std::string time_create_ = "";                  /// <--- время создания заявки
 };
 }       /// <--- types
 }   /// <--- td

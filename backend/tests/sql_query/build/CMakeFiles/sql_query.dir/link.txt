@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/sql_query.dir/link.d CMakeFiles/sql_query.dir/main.cpp.o -o sql_query  /usr/local/lib/libmps_common.a /usr/lib/x86_64-linux-gnu/libboost_system.so.1.83.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.83.0 /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.83.0 /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.83.0

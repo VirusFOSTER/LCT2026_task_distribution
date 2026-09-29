@@ -1,0 +1,246 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
+#include <stdexcept>
+#include <cmath>
+#include <optional>
+
+#include "structures/vroom/input/input.h"
+#include "structures/vroom/job.h"
+#include "structures/vroom/vehicle.h"
+#include "structures/vroom/time_window.h"
+#include "structures/vroom/location.h"
+#include "structures/vroom/amount.h"
+#include "structures/vroom/cost_wrapper.h"   // VehicleCosts
+#include "utils/exception.h"
+
+// ===============================================================
+// Параметры задачи
+// ===============================================================
+constexpr int NUM_WORKERS = 20;
+constexpr int NUM_TASKS   = 200;
+constexpr int TOTAL_NODES = NUM_WORKERS + NUM_TASKS;   // 220
+
+constexpr int SHIFT_START = 9  * 3600;   // 32400
+constexpr int SHIFT_END   = 18 * 3600;   // 64800
+
+// Профили транспорта
+const std::string PROFILE_CAR     = "car";
+const std::string PROFILE_BIKE    = "bike";
+const std::string PROFILE_FOOT    = "foot";
+const std::string PROFILE_TRANSIT = "transit";
+
+// ===============================================================
+// Загрузка матрицы времени из файла
+// ===============================================================
+vroom::Matrix<vroom::UserDuration> load_matrix(const std::string& filename) {
+    std::ifstream fin(filename);
+    if (!fin) throw std::runtime_error("Не могу открыть файл: " + filename);
+
+    std::vector<std::vector<vroom::UserDuration>> data;
+    std::string line;
+    while (std::getline(fin, line)) {
+        if (line.empty()) continue;
+        std::istringstream iss(line);
+        std::vector<vroom::UserDuration> row;
+        double v;
+        while (iss >> v) row.push_back(static_cast<vroom::UserDuration>(std::llround(v)));
+        if (!row.empty()) data.push_back(std::move(row));
+    }
+
+    const std::size_t n = data.size();
+    if (n != TOTAL_NODES)
+        throw std::runtime_error("Ожидалось " + std::to_string(TOTAL_NODES) +
+                                 " строк, получено " + std::to_string(n));
+    for (const auto& row : data)
+        if (row.size() != n) throw std::runtime_error("Матрица не квадратная.");
+
+    vroom::Matrix<vroom::UserDuration> matrix(n);
+    for (std::size_t i = 0; i < n; ++i)
+        for (std::size_t j = 0; j < n; ++j)
+            matrix[i][j] = data[i][j];
+    return matrix;
+}
+
+// ===============================================================
+// Вывод решения
+// ===============================================================
+void log_solution(const vroom::Solution& sol) {
+    std::cout << "=== СВОДКА ===\n";
+    std::cout << "Стоимость:       " << sol.summary.cost << "\n";
+    std::cout << "Не выполнено:    " << sol.unassigned.size() << "\n";
+
+    int used = 0;
+    for (const auto& r : sol.routes)
+        for (const auto& s : r.steps)
+            if (s.step_type == vroom::STEP_TYPE::JOB) { ++used; break; }
+    std::cout << "Использовано ТС: " << used << " из " << NUM_WORKERS << "\n";
+
+    for (const auto& route : sol.routes) {
+        int jobs = 0;
+        for (const auto& s : route.steps) if (s.step_type == vroom::STEP_TYPE::JOB) ++jobs;
+        if (jobs == 0) continue;
+
+        std::cout << "\nПрофиль: " << route.profile
+                  << " | ТС " << route.vehicle
+                  << " | задач: " << jobs
+                  << " | длительность: " << route.duration / 60 << " мин\n";
+
+        for (const auto& step : route.steps) {
+            if (step.step_type != vroom::STEP_TYPE::JOB) continue;
+            int h = step.arrival / 3600;
+            int m = (step.arrival % 3600) / 60;
+            // std::cout << "  -> Задача " << step.job_type.
+            //           << " | узел " << step.location.index()
+            //           << " | прибытие " << h << ":" << (m < 10 ? "0" : "") << m
+            //           << " | ожидание " << step.waiting_time / 60 << " мин\n";
+        }
+    }
+}
+
+// ===============================================================
+// Сборка задачи VROOM
+// ===============================================================
+vroom::Input build_problem(
+    vroom::Matrix<vroom::UserDuration>& car_matrix,
+    vroom::Matrix<vroom::UserDuration>& bike_matrix,
+    vroom::Matrix<vroom::UserDuration>& foot_matrix,
+    vroom::Matrix<vroom::UserDuration>& transit_matrix,
+    const std::vector<vroom::Skills>& worker_skills,
+    const std::vector<vroom::Skills>& task_skills,
+    const std::vector<std::pair<vroom::UserDuration, vroom::UserDuration>>& task_windows,
+    const std::vector<vroom::UserDuration>& task_service
+    ) {
+    vroom::Input problem;
+
+    // ---- 1. Матрицы времени по профилям ----
+    // VROOM использует ту матрицу, которая соответствует профилю ТС.
+    problem.set_durations_matrix(PROFILE_CAR,     std::move(car_matrix));
+    problem.set_durations_matrix(PROFILE_BIKE,    std::move(bike_matrix));
+    problem.set_durations_matrix(PROFILE_FOOT,    std::move(foot_matrix));
+    problem.set_durations_matrix(PROFILE_TRANSIT, std::move(transit_matrix));
+
+    // ---- 2. Рабочие (транспортные средства) ----
+    const vroom::TimeWindow shift(SHIFT_START, SHIFT_END);
+    const std::vector<std::string> profiles = {
+        PROFILE_CAR, PROFILE_BIKE, PROFILE_FOOT, PROFILE_TRANSIT
+    };
+
+    for (int i = 0; i < NUM_WORKERS; ++i) {
+        vroom::Location home(i);
+
+        // Фиксированная стоимость, чтобы минимизировать число задействованных ТС
+        vroom::VehicleCosts costs(
+            1'000'000,   // fixed
+            3600,        // per_hour
+            0,           // per_km
+            0            // per_task_hour
+            );
+
+        std::optional<vroom::Location> start_loc(home);
+        std::optional<vroom::Location> end_loc;   // открытый маршрут
+
+        // Распределяем профили: i % 4 даёт car/bike/foot/transit
+        std::string profile = profiles[i % profiles.size()];
+
+        vroom::Vehicle v(
+            i + 1,
+            start_loc,
+            end_loc,
+            profile,                 // <-- профиль транспорта
+            vroom::Amount(0),
+            worker_skills[i],
+            shift,
+            {},
+            "",
+            costs
+            );
+        problem.add_vehicle(v);
+    }
+
+    // ---- 3. Задачи ----
+    for (int j = 0; j < NUM_TASKS; ++j) {
+        vroom::Location loc(NUM_WORKERS + j);
+
+        vroom::Job job(
+            1000 + j,
+            loc,
+            0,                       // setup
+            task_service[j],         // service
+            vroom::Amount(0),        // delivery
+            vroom::Amount(0),        // pickup
+            task_skills[j],
+            0,                       // priority
+            { vroom::TimeWindow(task_windows[j].first, task_windows[j].second) }
+            );
+        problem.add_job(job);
+    }
+
+    return problem;
+}
+
+// ===============================================================
+// main
+// ===============================================================
+int main() {
+    std::cout << "=== VROOM C++: VRP с разными видами транспорта ===\n\n";
+
+    try {
+        // ---- 1. Загрузка матриц ----
+        auto car_mat     = load_matrix("time_matrix_car.txt");
+        auto bike_mat    = load_matrix("time_matrix_bike.txt");
+        auto foot_mat    = load_matrix("time_matrix_foot.txt");
+        auto transit_mat = load_matrix("time_matrix_transit.txt");
+        std::cout << "Матрицы загружены: 4 профиля x "
+                  << TOTAL_NODES << " x " << TOTAL_NODES << "\n";
+
+        // ---- 2. Данные о навыках и задачах ----
+        std::vector<vroom::Skills> worker_skills(NUM_WORKERS);
+        for (int i = 0; i < NUM_WORKERS; ++i)
+            worker_skills[i] = {
+                static_cast<vroom::Skill>((i % 4) + 1),
+                static_cast<vroom::Skill>(((i + 1) % 4) + 1)
+            };
+
+        std::vector<vroom::Skills> task_skills(NUM_TASKS);
+        for (int j = 0; j < NUM_TASKS; ++j)
+            task_skills[j] = { static_cast<vroom::Skill>((j % 4) + 1) };
+
+        std::vector<std::pair<vroom::UserDuration, vroom::UserDuration>> task_windows(NUM_TASKS);
+        for (int j = 0; j < NUM_TASKS; ++j) {
+            vroom::UserDuration e = SHIFT_START + (j % 8) * 1800;
+            vroom::UserDuration l = e + 3 * 3600;
+            if (l > SHIFT_END) l = SHIFT_END;
+            task_windows[j] = {e, l};
+        }
+
+        std::vector<vroom::UserDuration> task_service(NUM_TASKS);
+        for (int j = 0; j < NUM_TASKS; ++j)
+            task_service[j] = (30 + (j % 4) * 20) * 60;
+
+        // ---- 3. Сборка задачи ----
+        vroom::Input problem = build_problem(
+            car_mat, bike_mat, foot_mat, transit_mat,
+            worker_skills, task_skills, task_windows, task_service
+            );
+
+        // ---- 4. Решение ----
+        const unsigned exploration_level = 5;
+        const unsigned nb_threads        = 4;
+
+        vroom::Solution sol = problem.solve(exploration_level, nb_threads);
+
+        // ---- 5. Вывод ----
+        log_solution(sol);
+
+    } catch (const vroom::Exception& e) {
+        std::cerr << "Ошибка VROOM: " << e.message << "\n";
+        return 1;
+    } catch (const std::exception& e) {
+        std::cerr << "Ошибка: " << e.what() << "\n";
+        return 1;
+    }
+    return 0;
+}
