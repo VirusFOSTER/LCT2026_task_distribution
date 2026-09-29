@@ -121,6 +121,14 @@ RUN mkdir -p /app/include && ln -s /app/libs /app/include/mps
 
 RUN ln -s /app/libs /app/mps
 
+
+# Создаем папку mps и кладем в неё ссылки на наши библиотеки,
+# чтобы компилятор мог найти их по пути mps/...
+RUN mkdir -p /app/mps && \
+    ln -s /app/libs/mps_common /app/mps/mps_common && \
+    ln -s /app/libs/mps_containers /app/mps/mps_containers && \
+    ln -s /app/libs/mps_process_traits /app/mps/mps_process_traits
+
 # ==========================================
 # Сборка основного проекта
 # ==========================================
@@ -131,7 +139,7 @@ RUN cmake -B build -S . -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_PREFIX_PATH="/app/install" \
     -DVROOM_ROOT=/app/libs/vroom \
-    -DCMAKE_CXX_FLAGS="-I/app/libs" && \
+    -DCMAKE_CXX_FLAGS="-I/app" && \
     cmake --build build
 
 # ==========================================
